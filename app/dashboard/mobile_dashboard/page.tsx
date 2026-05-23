@@ -9,10 +9,14 @@ import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 
 export default function MobileDashboardPage() {
+
   const router = useRouter();
 
   const [darkMode, setDarkMode] =
     useState(true);
+
+  const [sidebarOpen, setSidebarOpen] =
+    useState(false);
 
   const [loading, setLoading] =
     useState(true);
@@ -37,6 +41,7 @@ export default function MobileDashboardPage() {
   }, []);
 
   const loadDashboard = async () => {
+
     setLoading(true);
 
     const {
@@ -50,21 +55,32 @@ export default function MobileDashboardPage() {
 
     setUser(user);
 
-    // PROFILE
     const { data: profile } =
       await supabase
         .from("profiles")
-        .select("*")
+        .select("name")
         .eq("id", user.id)
         .single();
 
-    if (profile) {
+    if (
+      profile &&
+      profile.name
+    ) {
+
+      setUserName(profile.name);
+
+    } else {
+
+      const fallbackName =
+        user.email
+          ?.split("@")[0]
+          ?.replace(/[0-9]/g, "");
+
       setUserName(
-        profile.name || "User"
+        fallbackName || "User"
       );
     }
 
-    // CHATBOTS
     const { data: bots } =
       await supabase
         .from("chatbots")
@@ -75,6 +91,7 @@ export default function MobileDashboardPage() {
         });
 
     if (bots) {
+
       setChatbots(bots);
 
       const ids = bots.map(
@@ -82,6 +99,7 @@ export default function MobileDashboardPage() {
       );
 
       if (ids.length > 0) {
+
         const { count } =
           await supabase
             .from("chatbot_data")
@@ -101,6 +119,7 @@ export default function MobileDashboardPage() {
   };
 
   const logout = async () => {
+
     await supabase.auth.signOut();
 
     router.push("/mobile_login");
@@ -140,24 +159,13 @@ export default function MobileDashboardPage() {
           }
         }
 
-        @keyframes pulse{
-          0%{
-            transform:scale(1);
-          }
-
-          50%{
-            transform:scale(1.05);
-          }
-
-          100%{
-            transform:scale(1);
-          }
+        .sidebar{
+          transition:0.35s;
         }
 
-        .card-hover:active{
-          transform:scale(0.98);
+        .card{
+          animation:fadeUp .5s ease;
         }
-
         `}
       </style>
 
@@ -169,11 +177,128 @@ export default function MobileDashboardPage() {
             : "#eef2ff",
         }}
       >
+
+        {/* SIDEBAR OVERLAY */}
+        {sidebarOpen && (
+          <div
+            onClick={() =>
+              setSidebarOpen(false)
+            }
+            style={styles.overlay}
+          />
+        )}
+
+        {/* SIDEBAR */}
+        <div
+          className="sidebar"
+          style={{
+            ...styles.sidebar,
+            left: sidebarOpen
+              ? "0"
+              : "-280px",
+            background: darkMode
+              ? "#111827"
+              : "white",
+          }}
+        >
+
+          <div>
+
+            <div style={styles.sidebarTop}>
+
+              <div style={styles.logo}>
+                BC
+              </div>
+
+              <div>
+                <h2
+                  style={{
+                    color: darkMode
+                      ? "white"
+                      : "#0f172a",
+                    margin: 0,
+                  }}
+                >
+                  BuildChat
+                </h2>
+
+                <p
+                  style={{
+                    color: darkMode
+                      ? "#94a3b8"
+                      : "#64748b",
+                    fontSize: "13px",
+                    marginTop: "4px",
+                  }}
+                >
+                  AI Workspace
+                </p>
+
+              </div>
+
+            </div>
+
+            <div style={styles.menuWrap}>
+
+              <button
+                style={styles.menuBtn}
+              >
+                🏠 Dashboard
+              </button>
+
+              <button
+                style={styles.menuBtn}
+                onClick={() =>
+                  router.push(
+                    "/chatbot/create"
+                  )
+                }
+              >
+                🤖 Create Bot
+              </button>
+
+              <button
+                style={styles.menuBtn}
+                onClick={() =>
+                  router.push(
+                    "/profile"
+                  )
+                }
+              >
+                👤 Profile
+              </button>
+
+              <button
+                style={styles.menuBtn}
+                onClick={() =>
+                  setDarkMode(
+                    !darkMode
+                  )
+                }
+              >
+                {darkMode
+                  ? "☀️ Light Mode"
+                  : "🌙 Dark Mode"}
+              </button>
+
+            </div>
+
+          </div>
+
+          <button
+            onClick={logout}
+            style={styles.logoutBtn}
+          >
+            Logout
+          </button>
+
+        </div>
+
         {/* GLOW */}
         <div style={styles.glow1} />
         <div style={styles.glow2} />
 
-        {/* TOP BAR */}
+        {/* TOPBAR */}
         <div
           style={{
             ...styles.topBar,
@@ -182,64 +307,59 @@ export default function MobileDashboardPage() {
               : "rgba(255,255,255,0.7)",
           }}
         >
-          <div
-            style={styles.logoWrap}
-          >
-            <div style={styles.logo}>
-              BC
-            </div>
-
-            <div>
-              <h2
-                style={{
-                  ...styles.brand,
-                  color: darkMode
-                    ? "white"
-                    : "#0f172a",
-                }}
-              >
-                BuildChat
-              </h2>
-
-              <p
-                style={{
-                  color: darkMode
-                    ? "#94a3b8"
-                    : "#64748b",
-                  fontSize: "12px",
-                  marginTop: "2px",
-                }}
-              >
-                AI Workspace
-              </p>
-            </div>
-          </div>
 
           <button
             onClick={() =>
-              setDarkMode(!darkMode)
+              setSidebarOpen(
+                !sidebarOpen
+              )
             }
-            style={{
-              ...styles.themeBtn,
-              background: darkMode
-                ? "rgba(255,255,255,0.08)"
-                : "white",
-            }}
+            style={styles.menuToggle}
           >
-            {darkMode
-              ? "☀️"
-              : "🌙"}
+            ☰
           </button>
+
+          <div>
+
+            <h2
+              style={{
+                color: darkMode
+                  ? "white"
+                  : "#0f172a",
+                margin: 0,
+              }}
+            >
+              BuildChat
+            </h2>
+
+            <p
+              style={{
+                color: darkMode
+                  ? "#94a3b8"
+                  : "#64748b",
+                fontSize: "12px",
+                marginTop: "4px",
+              }}
+            >
+              Mobile Dashboard
+            </p>
+
+          </div>
+
+          <div style={styles.avatar}>
+            {userName
+              ?.charAt(0)
+              ?.toUpperCase()}
+          </div>
+
         </div>
 
         {/* HERO */}
         <div
-          style={{
-            ...styles.hero,
-            animation:
-              "fadeUp 0.5s ease",
-          }}
+          className="card"
+          style={styles.hero}
         >
+
           <h1
             style={{
               ...styles.heading,
@@ -248,12 +368,11 @@ export default function MobileDashboardPage() {
                 : "#0f172a",
             }}
           >
-            Welcome back 👋
+            Welcome 👋
           </h1>
 
           <p
             style={{
-              ...styles.subHeading,
               color: darkMode
                 ? "#94a3b8"
                 : "#64748b",
@@ -262,51 +381,13 @@ export default function MobileDashboardPage() {
             {userName}
           </p>
 
-          <div
-            style={{
-              ...styles.profileCard,
-              background: darkMode
-                ? "rgba(255,255,255,0.05)"
-                : "white",
-            }}
-          >
-            <div style={styles.avatar}>
-              {userName
-                ?.charAt(0)
-                ?.toUpperCase()}
-            </div>
-
-            <div>
-              <h3
-                style={{
-                  color: darkMode
-                    ? "white"
-                    : "#0f172a",
-                  margin: 0,
-                }}
-              >
-                {userName}
-              </h3>
-
-              <p
-                style={{
-                  color: darkMode
-                    ? "#94a3b8"
-                    : "#64748b",
-                  fontSize: "13px",
-                  marginTop: "4px",
-                }}
-              >
-                {user?.email}
-              </p>
-            </div>
-          </div>
         </div>
 
         {/* STATS */}
         <div style={styles.statsGrid}>
+
           <StatCard
-            title="Chatbots"
+            title="Bots"
             value={chatbots.length}
             icon="🤖"
             darkMode={darkMode}
@@ -321,10 +402,11 @@ export default function MobileDashboardPage() {
 
           <StatCard
             title="Status"
-            value="Active"
+            value="Live"
             icon="⚡"
             darkMode={darkMode}
           />
+
         </div>
 
         {/* SEARCH */}
@@ -359,24 +441,15 @@ export default function MobileDashboardPage() {
           + Create AI Chatbot
         </button>
 
-        {/* CHATBOTS */}
+        {/* CHATBOT LIST */}
         <div
           style={{
-            marginTop: "22px",
+            marginTop: "24px",
           }}
         >
-          <h2
-            style={{
-              color: darkMode
-                ? "white"
-                : "#0f172a",
-              marginBottom: "16px",
-            }}
-          >
-            Your Chatbots
-          </h2>
 
           {loading ? (
+
             <p
               style={{
                 color: darkMode
@@ -386,8 +459,10 @@ export default function MobileDashboardPage() {
             >
               Loading...
             </p>
+
           ) : filteredBots.length ===
             0 ? (
+
             <div
               style={{
                 ...styles.emptyCard,
@@ -396,10 +471,10 @@ export default function MobileDashboardPage() {
                   : "white",
               }}
             >
+
               <div
                 style={{
                   fontSize: "50px",
-                  marginBottom: "12px",
                 }}
               >
                 🤖
@@ -415,23 +490,16 @@ export default function MobileDashboardPage() {
                 No Chatbots Yet
               </h3>
 
-              <p
-                style={{
-                  color: darkMode
-                    ? "#94a3b8"
-                    : "#64748b",
-                }}
-              >
-                Create your first
-                AI chatbot.
-              </p>
             </div>
+
           ) : (
+
             filteredBots.map(
               (bot, index) => (
+
                 <div
                   key={bot.id}
-                  className="card-hover"
+                  className="card"
                   onClick={() =>
                     router.push(
                       `/chatbot/${bot.id}`
@@ -443,29 +511,24 @@ export default function MobileDashboardPage() {
                       darkMode
                         ? "rgba(255,255,255,0.05)"
                         : "white",
-                    animation:
-                      "fadeUp 0.5s ease",
-                    animationDelay: `${index * 0.1}s`,
+                    animationDelay: `${index * 0.08}s`,
                   }}
                 >
+
                   <div
-                    style={
-                      styles.botTop
-                    }
+                    style={styles.botTop}
                   >
+
                     <div
-                      style={
-                        styles.botIcon
-                      }
+                      style={styles.botIcon}
                     >
                       🤖
                     </div>
 
                     <div
-                      style={
-                        styles.activeDot
-                      }
+                      style={styles.activeDot}
                     />
+
                   </div>
 
                   <h3
@@ -473,8 +536,6 @@ export default function MobileDashboardPage() {
                       color: darkMode
                         ? "white"
                         : "#0f172a",
-                      marginBottom:
-                        "10px",
                     }}
                   >
                     {bot.name}
@@ -486,82 +547,16 @@ export default function MobileDashboardPage() {
                         ? "#94a3b8"
                         : "#64748b",
                       fontSize: "14px",
-                      lineHeight: 1.6,
                     }}
                   >
-                    AI assistant
-                    ready for
-                    conversations.
+                    AI chatbot ready
+                    for conversations.
                   </p>
 
-                  <div
-                    style={{
-                      marginTop: "16px",
-                      display: "flex",
-                      justifyContent:
-                        "space-between",
-                    }}
-                  >
-                    <span
-                      style={{
-                        color:
-                          "#22c55e",
-                        fontWeight: 700,
-                        fontSize:
-                          "13px",
-                      }}
-                    >
-                      ● Active
-                    </span>
-
-                    <span
-                      style={{
-                        color:
-                          darkMode
-                            ? "#94a3b8"
-                            : "#64748b",
-                        fontSize:
-                          "12px",
-                      }}
-                    >
-                      {new Date(
-                        bot.created_at
-                      ).toLocaleDateString()}
-                    </span>
-                  </div>
                 </div>
               )
             )
           )}
-        </div>
-
-        {/* BOTTOM BUTTONS */}
-        <div style={styles.bottomWrap}>
-          <button
-            onClick={() =>
-              router.push(
-                "/profile"
-              )
-            }
-            style={{
-              ...styles.bottomBtn,
-              background: darkMode
-                ? "rgba(255,255,255,0.05)"
-                : "white",
-              color: darkMode
-                ? "white"
-                : "#0f172a",
-            }}
-          >
-            👤 Profile
-          </button>
-
-          <button
-            onClick={logout}
-            style={styles.logoutBtn}
-          >
-            Logout
-          </button>
         </div>
       </div>
     </>
@@ -574,6 +569,7 @@ function StatCard({
   icon,
   darkMode,
 }: any) {
+
   return (
     <div
       style={{
@@ -583,9 +579,8 @@ function StatCard({
           : "white",
       }}
     >
-      <div
-        style={styles.statIcon}
-      >
+
+      <div style={styles.statIcon}>
         {icon}
       </div>
 
@@ -594,8 +589,6 @@ function StatCard({
           color: darkMode
             ? "white"
             : "#0f172a",
-          marginTop: "14px",
-          marginBottom: "4px",
         }}
       >
         {value}
@@ -611,11 +604,13 @@ function StatCard({
       >
         {title}
       </p>
+
     </div>
   );
 }
 
 const styles: any = {
+
   page: {
     minHeight: "100vh",
     padding: "18px",
@@ -623,6 +618,52 @@ const styles: any = {
     overflowX: "hidden",
     fontFamily:
       "Inter, sans-serif",
+  },
+
+  overlay: {
+    position: "fixed",
+    inset: 0,
+    background:
+      "rgba(0,0,0,0.5)",
+    zIndex: 50,
+  },
+
+  sidebar: {
+    position: "fixed",
+    top: 0,
+    bottom: 0,
+    width: "260px",
+    padding: "22px",
+    zIndex: 100,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent:
+      "space-between",
+  },
+
+  sidebarTop: {
+    display: "flex",
+    alignItems: "center",
+    gap: "14px",
+    marginBottom: "40px",
+  },
+
+  menuWrap: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "14px",
+  },
+
+  menuBtn: {
+    padding: "16px",
+    borderRadius: "18px",
+    border: "none",
+    background:
+      "rgba(124,58,237,0.12)",
+    color: "white",
+    fontWeight: 700,
+    textAlign: "left",
+    cursor: "pointer",
   },
 
   glow1: {
@@ -656,16 +697,23 @@ const styles: any = {
     justifyContent:
       "space-between",
     alignItems: "center",
-    backdropFilter: "blur(20px)",
     marginBottom: "24px",
     position: "relative",
     zIndex: 2,
+    backdropFilter:
+      "blur(20px)",
   },
 
-  logoWrap: {
-    display: "flex",
-    alignItems: "center",
-    gap: "12px",
+  menuToggle: {
+    width: "50px",
+    height: "50px",
+    borderRadius: "16px",
+    border: "none",
+    fontSize: "20px",
+    cursor: "pointer",
+    background:
+      "linear-gradient(135deg,#7c3aed,#06b6d4)",
+    color: "white",
   },
 
   logo: {
@@ -681,51 +729,10 @@ const styles: any = {
     fontWeight: 800,
   },
 
-  brand: {
-    margin: 0,
-    fontSize: "22px",
-    fontWeight: 800,
-  },
-
-  themeBtn: {
+  avatar: {
     width: "50px",
     height: "50px",
     borderRadius: "16px",
-    border: "none",
-    cursor: "pointer",
-    fontSize: "18px",
-  },
-
-  hero: {
-    marginBottom: "24px",
-    position: "relative",
-    zIndex: 2,
-  },
-
-  heading: {
-    fontSize: "34px",
-    fontWeight: 900,
-    marginBottom: "4px",
-  },
-
-  subHeading: {
-    marginBottom: "18px",
-    fontSize: "15px",
-  },
-
-  profileCard: {
-    padding: "18px",
-    borderRadius: "24px",
-    display: "flex",
-    alignItems: "center",
-    gap: "14px",
-    backdropFilter: "blur(20px)",
-  },
-
-  avatar: {
-    width: "60px",
-    height: "60px",
-    borderRadius: "18px",
     background:
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
     display: "flex",
@@ -733,9 +740,18 @@ const styles: any = {
     alignItems: "center",
     color: "white",
     fontWeight: 800,
-    fontSize: "22px",
-    animation:
-      "pulse 4s infinite",
+  },
+
+  hero: {
+    marginBottom: "20px",
+    position: "relative",
+    zIndex: 2,
+  },
+
+  heading: {
+    fontSize: "34px",
+    fontWeight: 900,
+    marginBottom: "6px",
   },
 
   statsGrid: {
@@ -744,28 +760,26 @@ const styles: any = {
       "repeat(3,1fr)",
     gap: "12px",
     marginBottom: "22px",
-    position: "relative",
-    zIndex: 2,
   },
 
   statCard: {
-    padding: "18px 12px",
+    padding: "16px",
     borderRadius: "22px",
     textAlign: "center",
-    backdropFilter: "blur(20px)",
+    backdropFilter:
+      "blur(20px)",
   },
 
   statIcon: {
-    width: "50px",
-    height: "50px",
-    borderRadius: "16px",
+    width: "46px",
+    height: "46px",
+    borderRadius: "14px",
     background:
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    margin: "0 auto",
-    fontSize: "22px",
+    margin: "0 auto 10px",
   },
 
   search: {
@@ -775,11 +789,7 @@ const styles: any = {
     border:
       "1px solid rgba(255,255,255,0.08)",
     outline: "none",
-    fontSize: "15px",
     marginBottom: "18px",
-    backdropFilter: "blur(20px)",
-    position: "relative",
-    zIndex: 2,
   },
 
   createBtn: {
@@ -793,23 +803,18 @@ const styles: any = {
     fontWeight: 700,
     fontSize: "15px",
     cursor: "pointer",
-    boxShadow:
-      "0 10px 30px rgba(124,58,237,0.35)",
-    position: "relative",
-    zIndex: 2,
   },
 
   emptyCard: {
-    padding: "30px",
+    padding: "40px",
     borderRadius: "28px",
     textAlign: "center",
   },
 
   botCard: {
     padding: "22px",
-    borderRadius: "28px",
+    borderRadius: "26px",
     marginBottom: "16px",
-    backdropFilter: "blur(20px)",
     border:
       "1px solid rgba(255,255,255,0.08)",
     cursor: "pointer",
@@ -819,20 +824,19 @@ const styles: any = {
     display: "flex",
     justifyContent:
       "space-between",
-    alignItems: "center",
     marginBottom: "18px",
   },
 
   botIcon: {
-    width: "60px",
-    height: "60px",
+    width: "58px",
+    height: "58px",
     borderRadius: "18px",
     background:
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    fontSize: "26px",
+    fontSize: "24px",
   },
 
   activeDot: {
@@ -840,30 +844,13 @@ const styles: any = {
     height: "12px",
     borderRadius: "50%",
     background: "#22c55e",
-    boxShadow:
-      "0 0 15px #22c55e",
-  },
-
-  bottomWrap: {
-    display: "flex",
-    gap: "12px",
-    marginTop: "26px",
-    marginBottom: "30px",
-  },
-
-  bottomBtn: {
-    flex: 1,
-    padding: "16px",
-    borderRadius: "20px",
-    border: "none",
-    fontWeight: 700,
-    cursor: "pointer",
+    marginTop: "8px",
   },
 
   logoutBtn: {
-    flex: 1,
+    width: "100%",
     padding: "16px",
-    borderRadius: "20px",
+    borderRadius: "18px",
     border: "none",
     background:
       "linear-gradient(135deg,#ef4444,#f97316)",
