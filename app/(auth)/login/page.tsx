@@ -19,7 +19,7 @@ export default function LoginPage() {
     useState(true);
 
   const [isMobile, setIsMobile] =
-    useState(false);
+    useState(true);
 
   const [name, setName] =
     useState("");
