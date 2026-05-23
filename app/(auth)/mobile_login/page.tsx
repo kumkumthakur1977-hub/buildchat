@@ -1,12 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
-import { supabase } from "@/lib/supabaseClient";
-import { useRouter } from "next/navigation";
+import {
+  useRouter,
+} from "next/navigation";
+
+import {
+  supabase,
+} from "@/lib/supabaseClient";
 
 export default function MobileLoginPage() {
-  const router = useRouter();
+
+  const router =
+    useRouter();
 
   const [isLogin, setIsLogin] =
     useState(true);
@@ -33,70 +43,108 @@ export default function MobileLoginPage() {
     useState("");
 
   useEffect(() => {
-    if (window.innerWidth >= 768) {
+
+    if (
+      typeof window !== "undefined" &&
+      window.innerWidth >= 768
+    ) {
+
       router.push("/login");
+
     }
+
   }, [router]);
 
-  const handleAuth = async () => {
-    setLoading(true);
-    setError("");
+  const handleAuth =
+    async () => {
 
-    try {
-      if (isLogin) {
-        const { error } =
-          await supabase.auth.signInWithPassword(
-            {
-              email,
-              password,
-            }
+      setLoading(true);
+      setError("");
+
+      try {
+
+        if (isLogin) {
+
+          const { error } =
+            await supabase.auth
+              .signInWithPassword({
+                email,
+                password,
+              });
+
+          if (error) {
+
+            setError(
+              error.message
+            );
+
+            setLoading(false);
+            return;
+
+          }
+
+          router.push(
+            "/dashboard"
           );
 
-        if (error) {
-          setError(error.message);
-          setLoading(false);
-          return;
+        } else {
+
+          const {
+            data,
+            error,
+          } =
+            await supabase.auth
+              .signUp({
+                email,
+                password,
+              });
+
+          if (error) {
+
+            setError(
+              error.message
+            );
+
+            setLoading(false);
+            return;
+
+          }
+
+          const user =
+            data.user;
+
+          if (user) {
+
+            await supabase
+              .from(
+                "profiles"
+              )
+              .insert({
+                id: user.id,
+                name,
+              });
+
+          }
+
+          setIsLogin(true);
+
+          setError(
+            "Account created successfully 🎉"
+          );
+
         }
 
-        router.push("/dashboard");
-      } else {
-        const { data, error } =
-          await supabase.auth.signUp({
-            email,
-            password,
-          });
-
-        if (error) {
-          setError(error.message);
-          setLoading(false);
-          return;
-        }
-
-        const user = data.user;
-
-        if (user) {
-          await supabase
-            .from("profiles")
-            .insert({
-              id: user.id,
-              name,
-            });
-        }
-
-        setIsLogin(true);
+      } catch {
 
         setError(
-          "Account created successfully 🎉"
+          "Something went wrong."
         );
-      }
-    } catch (err) {
-      setError(
-        "Something went wrong."
-      );
-    }
 
-    setLoading(false);
-  };
+      }
+
+      setLoading(false);
+
+    };
 
   return (
     <>
@@ -115,6 +163,7 @@ export default function MobileLoginPage() {
           margin:0;
           overflow-x:hidden;
           font-family:Inter,sans-serif;
+          background:#020617;
         }
 
         input::placeholder{
@@ -122,6 +171,7 @@ export default function MobileLoginPage() {
         }
 
         @keyframes float{
+
           0%{
             transform:
               translateY(0px);
@@ -129,13 +179,14 @@ export default function MobileLoginPage() {
 
           50%{
             transform:
-              translateY(-14px);
+              translateY(-16px);
           }
 
           100%{
             transform:
               translateY(0px);
           }
+
         }
 
         @keyframes pulse{
@@ -145,7 +196,7 @@ export default function MobileLoginPage() {
           }
 
           50%{
-            transform:scale(1.05);
+            transform:scale(1.08);
           }
 
           100%{
@@ -173,7 +224,7 @@ export default function MobileLoginPage() {
           from{
             opacity:0;
             transform:
-              translateY(40px);
+              translateY(50px);
           }
 
           to{
@@ -184,18 +235,21 @@ export default function MobileLoginPage() {
 
         }
 
-        @keyframes blink{
+        @keyframes wave{
 
           0%{
-            height:16px;
+            transform:
+              rotate(0deg);
           }
 
           50%{
-            height:3px;
+            transform:
+              rotate(8deg);
           }
 
           100%{
-            height:16px;
+            transform:
+              rotate(0deg);
           }
 
         }
@@ -211,55 +265,98 @@ export default function MobileLoginPage() {
             : "#f8fafc",
         }}
       >
-        {/* GLOW */}
+
+        {/* GRID */}
+        <div
+          style={{
+            ...styles.grid,
+            opacity:
+              darkMode
+                ? 1
+                : 0.05,
+          }}
+        />
+
+        {/* GLOWS */}
         <div style={styles.glow1} />
 
         <div style={styles.glow2} />
 
         <div style={styles.glow3} />
 
-        {/* GRID */}
-        <div
-          style={{
-            ...styles.grid,
-            opacity: darkMode
-              ? 1
-              : 0.06,
-          }}
-        />
+        {/* TOPBAR */}
+        <div style={styles.topbar}>
 
-        {/* NAVBAR */}
-        <div style={styles.navbar}>
-          <div style={styles.logoWrap}>
+          <div style={styles.logoArea}>
+
             <div
-              style={styles.logoRing}
+              style={
+                styles.logoRing
+              }
             />
 
             <div style={styles.logo}>
               BC
             </div>
+
+            <div>
+
+              <h2
+                style={{
+                  ...styles.brand,
+                  color:
+                    darkMode
+                      ? "white"
+                      : "#0f172a",
+                }}
+              >
+                BuildChat
+              </h2>
+
+              <p
+                style={{
+                  ...styles.brandSub,
+                  color:
+                    darkMode
+                      ? "#94a3b8"
+                      : "#64748b",
+                }}
+              >
+                AI Workspace
+              </p>
+
+            </div>
+
           </div>
 
           <button
             onClick={() =>
-              setDarkMode(!darkMode)
+              setDarkMode(
+                !darkMode
+              )
             }
             style={{
               ...styles.toggle,
-              background: darkMode
-                ? "rgba(255,255,255,0.08)"
-                : "white",
-              color: darkMode
-                ? "white"
-                : "#0f172a",
+              background:
+                darkMode
+                  ? "rgba(255,255,255,0.08)"
+                  : "white",
+              color:
+                darkMode
+                  ? "white"
+                  : "#0f172a",
             }}
           >
-            {darkMode ? "☀️" : "🌙"}
+            {darkMode
+              ? "☀️"
+              : "🌙"}
           </button>
+
         </div>
 
         {/* HERO */}
         <div style={styles.hero}>
+
           <div style={styles.ball1} />
 
           <div style={styles.ball2} />
@@ -267,137 +364,196 @@ export default function MobileLoginPage() {
           <div style={styles.ball3} />
 
           {/* ROBOT */}
-          <div style={styles.robot}>
-            {/* HANDS */}
-            {focusField ===
-              "password" && (
-              <>
-                <div
-                  style={
-                    styles.handLeft
-                  }
-                />
-
-                <div
-                  style={
-                    styles.handRight
-                  }
-                />
-              </>
-            )}
-
-            {/* EYES */}
-            <div
-              style={{
-                ...styles.eye,
-                transform:
-                  focusField ===
-                  "email"
-                    ? `translateX(${Math.min(
-                        email.length *
-                          2,
-                        12
-                      )}px)`
-                    : "translateX(0px)",
-
-                opacity:
-                  focusField ===
-                  "password"
-                    ? 0
-                    : 1,
-
-                animation:
-                  focusField ===
-                  "email"
-                    ? "blink 2s infinite"
-                    : "",
-              }}
-            />
+          <div style={styles.robotCard}>
 
             <div
-              style={{
-                ...styles.eye,
-                transform:
-                  focusField ===
-                  "email"
-                    ? `translateX(${Math.min(
-                        email.length *
-                          2,
-                        12
-                      )}px)`
-                    : "translateX(0px)",
-
-                opacity:
-                  focusField ===
-                  "password"
-                    ? 0
-                    : 1,
-
-                animation:
-                  focusField ===
-                  "email"
-                    ? "blink 2s infinite"
-                    : "",
-              }}
+              style={
+                styles.robotGlow
+              }
             />
 
-            {/* MOUTH */}
-            <div style={styles.mouth} />
+            <div style={styles.robot}>
+
+              {/* HANDS */}
+              {focusField ===
+                "password" && (
+                <>
+                  <div
+                    style={
+                      styles.handLeft
+                    }
+                  />
+
+                  <div
+                    style={
+                      styles.handRight
+                    }
+                  />
+                </>
+              )}
+
+              {/* EYES */}
+              <div
+                style={{
+                  ...styles.eye,
+                  transform:
+                    focusField ===
+                    "email"
+                      ? `translateX(${Math.min(
+                          email.length *
+                            2,
+                          12
+                        )}px)`
+                      : "translateX(0px)",
+
+                  opacity:
+                    focusField ===
+                    "password"
+                      ? 0
+                      : 1,
+                }}
+              />
+
+              <div
+                style={{
+                  ...styles.eye,
+                  transform:
+                    focusField ===
+                    "email"
+                      ? `translateX(${Math.min(
+                          email.length *
+                            2,
+                          12
+                        )}px)`
+                      : "translateX(0px)",
+
+                  opacity:
+                    focusField ===
+                    "password"
+                      ? 0
+                      : 1,
+                }}
+              />
+
+              {/* MOUTH */}
+              <div
+                style={
+                  styles.mouth
+                }
+              />
+
+            </div>
+
           </div>
 
-          {/* TEXT */}
+          {/* BADGE */}
+          <div
+            style={{
+              ...styles.badge,
+              background:
+                darkMode
+                  ? "rgba(255,255,255,0.08)"
+                  : "white",
+              color:
+                darkMode
+                  ? "#cbd5e1"
+                  : "#475569",
+            }}
+          >
+            ✨ Trusted by AI Teams
+          </div>
+
+          {/* TITLE */}
           <h1
             style={{
               ...styles.heading,
-              color: darkMode
-                ? "white"
-                : "#0f172a",
+              color:
+                darkMode
+                  ? "white"
+                  : "#0f172a",
             }}
           >
-            BuildChat
+            Build AI Chatbots
+            <br />
+            For Modern Teams
           </h1>
 
           <p
             style={{
               ...styles.subtitle,
-              color: darkMode
-                ? "#94a3b8"
-                : "#475569",
+              color:
+                darkMode
+                  ? "#94a3b8"
+                  : "#64748b",
             }}
           >
-            Your AI buddy for building
-            smart chatbots ⚡
+            Launch powerful AI
+            assistants trained on
+            your business knowledge,
+            workflows and documents.
           </p>
 
-          <div style={styles.hookText}>
-            {focusField ===
-              "" &&
-              "✨ Ready to build something crazy?"}
+          {/* HOOK */}
+          <div
+            style={
+              styles.hookWrap
+            }
+          >
 
             {focusField ===
-              "email" &&
-              "👀 Hmm... nice email"}
+              "" && (
+              <span>
+                ⚡ Enterprise-ready
+                AI platform
+              </span>
+            )}
 
             {focusField ===
-              "password" &&
-              "🙈 Password hidden. I promise."}
+              "email" && (
+              <span>
+                👀 Nice email
+                choice
+              </span>
+            )}
+
+            {focusField ===
+              "password" && (
+              <span>
+                🙈 Password secured
+              </span>
+            )}
+
           </div>
+
         </div>
 
-        {/* FORM */}
-        <div style={styles.formArea}>
+        {/* AUTH */}
+        <div
+          style={{
+            ...styles.authWrap,
+            background:
+              darkMode
+                ? "rgba(255,255,255,0.06)"
+                : "rgba(255,255,255,0.92)",
+          }}
+        >
+
           {/* SWITCH */}
           <div
             style={{
               ...styles.switchWrap,
-              background: darkMode
-                ? "rgba(255,255,255,0.06)"
-                : "white",
+              background:
+                darkMode
+                  ? "rgba(255,255,255,0.04)"
+                  : "#eef2ff",
             }}
           >
+
             <button
               onClick={() =>
-                setIsLogin(true)
+                setIsLogin(
+                  true
+                )
               }
               style={{
                 ...styles.switchBtn,
@@ -411,7 +567,9 @@ export default function MobileLoginPage() {
 
             <button
               onClick={() =>
-                setIsLogin(false)
+                setIsLogin(
+                  false
+                )
               }
               style={{
                 ...styles.switchBtn,
@@ -422,13 +580,14 @@ export default function MobileLoginPage() {
             >
               Sign Up
             </button>
+
           </div>
 
           {/* NAME */}
           {!isLogin && (
             <input
               type="text"
-              placeholder="Your Name"
+              placeholder="Full Name"
               value={name}
               onChange={(e) =>
                 setName(
@@ -437,12 +596,14 @@ export default function MobileLoginPage() {
               }
               style={{
                 ...styles.input,
-                background: darkMode
-                  ? "rgba(255,255,255,0.06)"
-                  : "white",
-                color: darkMode
-                  ? "white"
-                  : "#0f172a",
+                background:
+                  darkMode
+                    ? "rgba(255,255,255,0.04)"
+                    : "white",
+                color:
+                  darkMode
+                    ? "white"
+                    : "#0f172a",
               }}
             />
           )}
@@ -453,7 +614,9 @@ export default function MobileLoginPage() {
             placeholder="Email Address"
             value={email}
             onFocus={() =>
-              setFocusField("email")
+              setFocusField(
+                "email"
+              )
             }
             onBlur={() =>
               setFocusField("")
@@ -465,12 +628,14 @@ export default function MobileLoginPage() {
             }
             style={{
               ...styles.input,
-              background: darkMode
-                ? "rgba(255,255,255,0.06)"
-                : "white",
-              color: darkMode
-                ? "white"
-                : "#0f172a",
+              background:
+                darkMode
+                  ? "rgba(255,255,255,0.04)"
+                  : "white",
+              color:
+                darkMode
+                  ? "white"
+                  : "#0f172a",
             }}
           />
 
@@ -494,12 +659,14 @@ export default function MobileLoginPage() {
             }
             style={{
               ...styles.input,
-              background: darkMode
-                ? "rgba(255,255,255,0.06)"
-                : "white",
-              color: darkMode
-                ? "white"
-                : "#0f172a",
+              background:
+                darkMode
+                  ? "rgba(255,255,255,0.04)"
+                  : "white",
+              color:
+                darkMode
+                  ? "white"
+                  : "#0f172a",
             }}
           />
 
@@ -519,46 +686,59 @@ export default function MobileLoginPage() {
             {loading
               ? "Loading..."
               : isLogin
-              ? "Enter 🚀"
-              : "Create Account ✨"}
+              ? "Continue →"
+              : "Create Account"}
           </button>
 
           {/* FOOTER */}
           <p
             style={{
               ...styles.footer,
-              color: darkMode
-                ? "#64748b"
-                : "#64748b",
+              color:
+                darkMode
+                  ? "#64748b"
+                  : "#64748b",
             }}
           >
-            Secure login powered by
-            Supabase
+            Secure authentication
+            powered by Supabase
           </p>
+
         </div>
+
       </div>
     </>
   );
 }
 
 const styles: any = {
+
   page: {
     minHeight: "100vh",
     position: "relative",
     overflowX: "hidden",
     overflowY: "auto",
     padding:
-      "22px 22px 120px",
+      "24px 22px 120px",
+  },
+
+  grid: {
+    position: "absolute",
+    inset: 0,
+    backgroundImage:
+      "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
+    backgroundSize:
+      "40px 40px",
   },
 
   glow1: {
     position: "absolute",
-    width: "320px",
-    height: "320px",
+    width: "340px",
+    height: "340px",
     background:
-      "rgba(124,58,237,0.35)",
+      "rgba(124,58,237,0.30)",
     borderRadius: "50%",
-    filter: "blur(120px)",
+    filter: "blur(130px)",
     top: "-120px",
     left: "-100px",
   },
@@ -568,10 +748,10 @@ const styles: any = {
     width: "320px",
     height: "320px",
     background:
-      "rgba(6,182,212,0.28)",
+      "rgba(6,182,212,0.24)",
     borderRadius: "50%",
     filter: "blur(120px)",
-    bottom: "-100px",
+    bottom: "-120px",
     right: "-100px",
   },
 
@@ -580,23 +760,14 @@ const styles: any = {
     width: "220px",
     height: "220px",
     background:
-      "rgba(236,72,153,0.22)",
+      "rgba(236,72,153,0.18)",
     borderRadius: "50%",
     filter: "blur(100px)",
     top: "40%",
-    left: "25%",
+    left: "30%",
   },
 
-  grid: {
-    position: "absolute",
-    inset: 0,
-    backgroundImage:
-      "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
-    backgroundSize:
-      "36px 36px",
-  },
-
-  navbar: {
+  topbar: {
     position: "relative",
     zIndex: 5,
     display: "flex",
@@ -605,26 +776,32 @@ const styles: any = {
     alignItems: "center",
   },
 
-  logoWrap: {
-    position: "relative",
-    width: "74px",
-    height: "74px",
+  logoArea: {
+    display: "flex",
+    alignItems: "center",
+    gap: "14px",
   },
 
   logoRing: {
     position: "absolute",
     inset: 0,
     border:
-      "2px solid rgba(255,255,255,0.12)",
+      "2px solid rgba(255,255,255,0.10)",
     borderRadius: "50%",
     animation:
       "rotate 12s linear infinite",
   },
 
+  logoWrap: {
+    position: "relative",
+    width: "74px",
+    height: "74px",
+  },
+
   logo: {
     position: "absolute",
     inset: "8px",
-    borderRadius: "22px",
+    borderRadius: "24px",
     background:
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
     display: "flex",
@@ -634,14 +811,25 @@ const styles: any = {
     fontWeight: 900,
     fontSize: "22px",
     boxShadow:
-      "0 20px 60px rgba(124,58,237,0.45)",
+      "0 25px 60px rgba(124,58,237,0.45)",
+  },
+
+  brand: {
+    margin: 0,
+    fontSize: "22px",
+    fontWeight: 800,
+  },
+
+  brandSub: {
+    margin: 0,
+    fontSize: "13px",
   },
 
   toggle: {
     width: "52px",
     height: "52px",
-    border: "none",
     borderRadius: "18px",
+    border: "none",
     cursor: "pointer",
     fontSize: "18px",
   },
@@ -650,31 +838,31 @@ const styles: any = {
     position: "relative",
     zIndex: 5,
     textAlign: "center",
-    marginTop: "28px",
+    marginTop: "40px",
     animation:
       "fadeUp 1s ease",
   },
 
   ball1: {
     position: "absolute",
-    width: "18px",
-    height: "18px",
+    width: "16px",
+    height: "16px",
     borderRadius: "50%",
     background: "#7c3aed",
-    left: "30px",
-    top: "20px",
+    left: "20px",
+    top: "10px",
     animation:
       "float 4s infinite",
   },
 
   ball2: {
     position: "absolute",
-    width: "14px",
-    height: "14px",
+    width: "12px",
+    height: "12px",
     borderRadius: "50%",
     background: "#06b6d4",
     right: "30px",
-    top: "80px",
+    top: "100px",
     animation:
       "float 5s infinite",
   },
@@ -685,24 +873,43 @@ const styles: any = {
     height: "10px",
     borderRadius: "50%",
     background: "#ec4899",
-    left: "80px",
-    bottom: "0px",
+    left: "70px",
+    bottom: "20px",
     animation:
       "float 3s infinite",
   },
 
+  robotCard: {
+    position: "relative",
+    width: "180px",
+    height: "180px",
+    margin:
+      "0 auto 28px",
+  },
+
+  robotGlow: {
+    position: "absolute",
+    inset: 0,
+    borderRadius: "50%",
+    background:
+      "rgba(124,58,237,0.28)",
+    filter: "blur(50px)",
+    animation:
+      "pulse 4s infinite",
+  },
+
   robot: {
-    width: "120px",
-    height: "120px",
-    borderRadius: "38px",
+    position: "relative",
+    width: "140px",
+    height: "140px",
+    borderRadius: "42px",
     background:
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
-    margin: "0 auto 26px",
+    margin: "20px auto",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     gap: "20px",
-    position: "relative",
     boxShadow:
       "0 30px 80px rgba(124,58,237,0.45)",
     animation:
@@ -724,7 +931,7 @@ const styles: any = {
     height: "8px",
     background: "white",
     borderRadius: "20px",
-    bottom: "28px",
+    bottom: "32px",
   },
 
   handLeft: {
@@ -734,10 +941,9 @@ const styles: any = {
     background: "white",
     borderRadius: "40px",
     left: "12px",
-    top: "10px",
+    top: "12px",
     transform:
       "rotate(-35deg)",
-    zIndex: 5,
   },
 
   handRight: {
@@ -747,18 +953,28 @@ const styles: any = {
     background: "white",
     borderRadius: "40px",
     right: "12px",
-    top: "10px",
+    top: "12px",
     transform:
       "rotate(35deg)",
-    zIndex: 5,
+  },
+
+  badge: {
+    display: "inline-flex",
+    padding: "10px 18px",
+    borderRadius: "999px",
+    fontSize: "13px",
+    fontWeight: 700,
+    marginBottom: "22px",
+    backdropFilter:
+      "blur(14px)",
   },
 
   heading: {
     fontSize: "48px",
-    fontWeight: 900,
-    letterSpacing: "-3px",
     lineHeight: 1,
-    marginBottom: "14px",
+    letterSpacing: "-3px",
+    fontWeight: 900,
+    marginBottom: "18px",
   },
 
   subtitle: {
@@ -768,21 +984,24 @@ const styles: any = {
     margin: "0 auto",
   },
 
-  hookText: {
+  hookWrap: {
     marginTop: "18px",
-    minHeight: "24px",
+    minHeight: "22px",
     color: "#cbd5e1",
     fontWeight: 700,
     fontSize: "15px",
   },
 
-  formArea: {
+  authWrap: {
     position: "relative",
     zIndex: 5,
-    marginTop: "40px",
-    display: "flex",
-    flexDirection: "column",
-    gap: "16px",
+    marginTop: "42px",
+    borderRadius: "34px",
+    padding: "24px",
+    backdropFilter:
+      "blur(24px)",
+    border:
+      "1px solid rgba(255,255,255,0.08)",
     animation:
       "fadeUp 1.2s ease",
   },
@@ -791,8 +1010,7 @@ const styles: any = {
     display: "flex",
     padding: "5px",
     borderRadius: "22px",
-    backdropFilter:
-      "blur(20px)",
+    marginBottom: "18px",
   },
 
   switchBtn: {
@@ -813,17 +1031,18 @@ const styles: any = {
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
     color: "white",
     boxShadow:
-      "0 10px 30px rgba(124,58,237,0.35)",
+      "0 14px 40px rgba(124,58,237,0.35)",
   },
 
   input: {
     width: "100%",
     padding: "20px",
-    borderRadius: "24px",
+    borderRadius: "22px",
     border:
       "1px solid rgba(255,255,255,0.08)",
     outline: "none",
     fontSize: "16px",
+    marginBottom: "14px",
     backdropFilter:
       "blur(16px)",
   },
@@ -831,15 +1050,14 @@ const styles: any = {
   button: {
     width: "100%",
     padding: "20px",
-    borderRadius: "26px",
+    borderRadius: "24px",
     border: "none",
     background:
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
     color: "white",
     fontWeight: 900,
-    fontSize: "17px",
+    fontSize: "16px",
     cursor: "pointer",
-    marginTop: "8px",
     boxShadow:
       "0 25px 60px rgba(124,58,237,0.45)",
   },
@@ -847,12 +1065,13 @@ const styles: any = {
   error: {
     color: "#ef4444",
     fontSize: "14px",
-    marginTop: "-4px",
+    marginBottom: "12px",
   },
 
   footer: {
     textAlign: "center",
-    marginTop: "8px",
     fontSize: "13px",
+    marginTop: "18px",
   },
+
 };
