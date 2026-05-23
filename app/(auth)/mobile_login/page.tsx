@@ -15,6 +15,9 @@ export default function MobileLoginPage() {
 
   const router = useRouter();
 
+  const [step, setStep] =
+    useState(0);
+
   const [isLogin, setIsLogin] =
     useState(true);
 
@@ -118,10 +121,11 @@ export default function MobileLoginPage() {
 
         body{
           margin:0;
-          overflow-x:hidden;
+          overflow:hidden;
         }
 
         @keyframes float {
+
           0%{
             transform:
               translateY(0px)
@@ -130,8 +134,8 @@ export default function MobileLoginPage() {
 
           50%{
             transform:
-              translateY(-25px)
-              rotate(10deg);
+              translateY(-20px)
+              rotate(8deg);
           }
 
           100%{
@@ -139,33 +143,31 @@ export default function MobileLoginPage() {
               translateY(0px)
               rotate(0deg);
           }
+
         }
 
-        @keyframes pulseGlow {
+        @keyframes pulse {
 
           0%{
             transform:scale(1);
-            opacity:0.6;
           }
 
           50%{
-            transform:scale(1.2);
-            opacity:1;
+            transform:scale(1.15);
           }
 
           100%{
             transform:scale(1);
-            opacity:0.6;
           }
 
         }
 
-        @keyframes slideUp {
+        @keyframes fadeUp {
 
           from{
             opacity:0;
             transform:
-              translateY(60px);
+              translateY(50px);
           }
 
           to{
@@ -176,7 +178,7 @@ export default function MobileLoginPage() {
 
         }
 
-        @keyframes rotateSlow {
+        @keyframes rotate {
 
           from{
             transform:rotate(0deg);
@@ -184,42 +186,6 @@ export default function MobileLoginPage() {
 
           to{
             transform:rotate(360deg);
-          }
-
-        }
-
-        @keyframes shimmer {
-
-          0%{
-            background-position:
-              -400px 0;
-          }
-
-          100%{
-            background-position:
-              400px 0;
-          }
-
-        }
-
-        @keyframes wave {
-
-          0%{
-            transform:
-              scale(1)
-              translateY(0px);
-          }
-
-          50%{
-            transform:
-              scale(1.08)
-              translateY(-12px);
-          }
-
-          100%{
-            transform:
-              scale(1)
-              translateY(0px);
           }
 
         }
@@ -236,38 +202,13 @@ export default function MobileLoginPage() {
         }}
       >
 
-        {/* MASSIVE GLOW */}
-        <div
-          style={{
-            ...styles.glow1,
-            opacity: darkMode ? 1 : 0.35,
-          }}
-        />
+        {/* BACKGROUND */}
+        <div style={styles.glow1} />
+        <div style={styles.glow2} />
+        <div style={styles.glow3} />
 
-        <div
-          style={{
-            ...styles.glow2,
-            opacity: darkMode ? 1 : 0.35,
-          }}
-        />
-
-        <div
-          style={{
-            ...styles.glow3,
-            opacity: darkMode ? 1 : 0.3,
-          }}
-        />
-
-        {/* GRID */}
-        <div
-          style={{
-            ...styles.grid,
-            opacity: darkMode ? 1 : 0.08,
-          }}
-        />
-
-        {/* HEADER */}
-        <div style={styles.header}>
+        {/* TOP */}
+        <div style={styles.topBar}>
 
           <div style={styles.logoWrap}>
 
@@ -301,22 +242,15 @@ export default function MobileLoginPage() {
         {/* HERO */}
         <div style={styles.hero}>
 
-          <div style={styles.floatingOrb1} />
-          <div style={styles.floatingOrb2} />
-          <div style={styles.floatingOrb3} />
+          <div style={styles.orb1} />
+          <div style={styles.orb2} />
+          <div style={styles.orb3} />
 
-          <div
-            style={{
-              ...styles.badge,
-              background: darkMode
-                ? "rgba(255,255,255,0.08)"
-                : "white",
-              color: darkMode
-                ? "#cbd5e1"
-                : "#475569",
-            }}
-          >
-            🚀 Future AI Platform
+          <div style={styles.aiFace}>
+
+            <div style={styles.eye} />
+            <div style={styles.eye} />
+
           </div>
 
           <h1
@@ -327,11 +261,7 @@ export default function MobileLoginPage() {
                 : "#0f172a",
             }}
           >
-            Your AI
-            <br />
-            Empire Starts
-            <br />
-            Here
+            Hello Human 👋
           </h1>
 
           <p
@@ -342,143 +272,127 @@ export default function MobileLoginPage() {
                 : "#475569",
             }}
           >
-            Build futuristic AI chatbots
-            with stunning intelligence
-            and powerful automation.
+            Your AI assistant is waiting
+            to build something amazing.
           </p>
 
         </div>
 
-        {/* CARD */}
-        <div
-          style={{
-            ...styles.card,
-            background: darkMode
-              ? "rgba(255,255,255,0.08)"
-              : "rgba(255,255,255,0.92)",
-          }}
-        >
+        {/* INTERACTIVE LOGIN */}
+        <div style={styles.bottomArea}>
 
-          {/* TOP SHIMMER */}
-          <div style={styles.shimmer} />
-
-          <div style={styles.tabs}>
+          {step === 0 && (
 
             <button
               onClick={() =>
-                setIsLogin(true)
+                setStep(1)
               }
-              style={{
-                ...styles.tabBtn,
-                ...(isLogin
-                  ? styles.activeTab
-                  : {}),
-              }}
+              style={styles.bigButton}
             >
-              Login
+              Tap To Enter 🚀
             </button>
 
-            <button
-              onClick={() =>
-                setIsLogin(false)
-              }
-              style={{
-                ...styles.tabBtn,
-                ...(!isLogin
-                  ? styles.activeTab
-                  : {}),
-              }}
+          )}
+
+          {step >= 1 && (
+
+            <div
+              style={styles.inputArea}
             >
-              Sign Up
-            </button>
 
-          </div>
+              <div style={styles.switchRow}>
 
-          {!isLogin && (
-            <input
-              type="text"
-              placeholder="Full Name"
-              value={name}
-              onChange={(e) =>
-                setName(e.target.value)
-              }
-              style={{
-                ...styles.input,
-                background: darkMode
-                  ? "rgba(255,255,255,0.05)"
-                  : "white",
-                color: darkMode
-                  ? "white"
-                  : "#0f172a",
-              }}
-            />
+                <button
+                  onClick={() =>
+                    setIsLogin(true)
+                  }
+                  style={{
+                    ...styles.switchBtn,
+                    ...(isLogin
+                      ? styles.activeSwitch
+                      : {}),
+                  }}
+                >
+                  Login
+                </button>
+
+                <button
+                  onClick={() =>
+                    setIsLogin(false)
+                  }
+                  style={{
+                    ...styles.switchBtn,
+                    ...(!isLogin
+                      ? styles.activeSwitch
+                      : {}),
+                  }}
+                >
+                  Sign Up
+                </button>
+
+              </div>
+
+              {!isLogin && (
+
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  value={name}
+                  onChange={(e) =>
+                    setName(
+                      e.target.value
+                    )
+                  }
+                  style={styles.input}
+                />
+
+              )}
+
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) =>
+                  setEmail(
+                    e.target.value
+                  )
+                }
+                style={styles.input}
+              />
+
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) =>
+                  setPassword(
+                    e.target.value
+                  )
+                }
+                style={styles.input}
+              />
+
+              {error && (
+
+                <p style={styles.error}>
+                  {error}
+                </p>
+
+              )}
+
+              <button
+                onClick={handleAuth}
+                disabled={loading}
+                style={styles.enterBtn}
+              >
+                {loading
+                  ? "Entering..."
+                  : "Enter BuildChat ⚡"}
+              </button>
+
+            </div>
+
           )}
-
-          <input
-            type="email"
-            placeholder="Email Address"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-            style={{
-              ...styles.input,
-              background: darkMode
-                ? "rgba(255,255,255,0.05)"
-                : "white",
-              color: darkMode
-                ? "white"
-                : "#0f172a",
-            }}
-          />
-
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
-            style={{
-              ...styles.input,
-              background: darkMode
-                ? "rgba(255,255,255,0.05)"
-                : "white",
-              color: darkMode
-                ? "white"
-                : "#0f172a",
-            }}
-          />
-
-          {error && (
-            <p style={styles.error}>
-              {error}
-            </p>
-          )}
-
-          <button
-            onClick={handleAuth}
-            disabled={loading}
-            style={styles.button}
-          >
-            {loading
-              ? "Loading..."
-              : isLogin
-              ? "Continue"
-              : "Create Account"}
-          </button>
-
-          <p
-            style={{
-              ...styles.footer,
-              color: darkMode
-                ? "#64748b"
-                : "#64748b",
-            }}
-          >
-            Secure authentication powered
-            by Supabase
-          </p>
 
         </div>
 
@@ -491,8 +405,8 @@ const styles: any = {
 
   page: {
     minHeight: "100vh",
-    overflow: "hidden",
     position: "relative",
+    overflow: "hidden",
     padding: "22px",
     fontFamily:
       "Inter, sans-serif",
@@ -509,7 +423,7 @@ const styles: any = {
     top: "-120px",
     left: "-100px",
     animation:
-      "pulseGlow 6s infinite ease-in-out",
+      "pulse 6s infinite",
   },
 
   glow2: {
@@ -523,55 +437,46 @@ const styles: any = {
     bottom: "-120px",
     right: "-100px",
     animation:
-      "pulseGlow 8s infinite ease-in-out",
+      "pulse 8s infinite",
   },
 
   glow3: {
     position: "absolute",
-    width: "250px",
-    height: "250px",
+    width: "220px",
+    height: "220px",
     borderRadius: "50%",
     background:
-      "rgba(236,72,153,0.25)",
-    filter: "blur(100px)",
-    top: "35%",
-    left: "35%",
+      "rgba(236,72,153,0.28)",
+    filter: "blur(90px)",
+    top: "40%",
+    left: "30%",
     animation:
-      "wave 7s infinite ease-in-out",
+      "float 7s infinite",
   },
 
-  grid: {
-    position: "absolute",
-    inset: 0,
-    backgroundImage:
-      "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
-    backgroundSize: "40px 40px",
-  },
-
-  header: {
+  topBar: {
     position: "relative",
-    zIndex: 2,
+    zIndex: 5,
     display: "flex",
     justifyContent:
       "space-between",
     alignItems: "center",
-    marginBottom: "30px",
   },
 
   logoWrap: {
     position: "relative",
-    width: "70px",
-    height: "70px",
+    width: "72px",
+    height: "72px",
   },
 
   logoRing: {
     position: "absolute",
     inset: 0,
     border:
-      "2px solid rgba(255,255,255,0.15)",
+      "2px solid rgba(255,255,255,0.12)",
     borderRadius: "50%",
     animation:
-      "rotateSlow 12s linear infinite",
+      "rotate 10s linear infinite",
   },
 
   logo: {
@@ -597,175 +502,179 @@ const styles: any = {
     borderRadius: "18px",
     cursor: "pointer",
     fontSize: "18px",
-    backdropFilter: "blur(10px)",
   },
 
   hero: {
     position: "relative",
     zIndex: 2,
     textAlign: "center",
-    marginBottom: "40px",
+    marginTop: "70px",
     animation:
-      "slideUp 1s ease",
+      "fadeUp 1s ease",
   },
 
-  floatingOrb1: {
+  orb1: {
     position: "absolute",
-    width: "20px",
-    height: "20px",
+    width: "18px",
+    height: "18px",
     borderRadius: "50%",
     background: "#7c3aed",
-    top: "10px",
-    left: "30px",
+    top: "20px",
+    left: "40px",
     animation:
-      "float 5s infinite ease-in-out",
+      "float 4s infinite",
   },
 
-  floatingOrb2: {
+  orb2: {
     position: "absolute",
-    width: "16px",
-    height: "16px",
+    width: "14px",
+    height: "14px",
     borderRadius: "50%",
     background: "#06b6d4",
-    top: "90px",
-    right: "40px",
+    top: "120px",
+    right: "50px",
     animation:
-      "float 7s infinite ease-in-out",
+      "float 6s infinite",
   },
 
-  floatingOrb3: {
+  orb3: {
     position: "absolute",
     width: "12px",
     height: "12px",
     borderRadius: "50%",
     background: "#ec4899",
-    bottom: "-10px",
-    left: "70px",
+    bottom: "-20px",
+    left: "90px",
     animation:
-      "float 4s infinite ease-in-out",
+      "float 5s infinite",
   },
 
-  badge: {
-    display: "inline-flex",
-    padding: "10px 18px",
-    borderRadius: "999px",
-    marginBottom: "24px",
-    fontWeight: 700,
-    fontSize: "14px",
-    backdropFilter: "blur(10px)",
+  aiFace: {
+    width: "130px",
+    height: "130px",
+    borderRadius: "40px",
+    background:
+      "linear-gradient(135deg,#7c3aed,#06b6d4)",
+    margin: "0 auto 30px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "18px",
+    boxShadow:
+      "0 30px 80px rgba(124,58,237,0.45)",
+    animation:
+      "float 5s infinite",
+  },
+
+  eye: {
+    width: "18px",
+    height: "18px",
+    borderRadius: "50%",
+    background: "white",
+    animation:
+      "pulse 2s infinite",
   },
 
   heading: {
-    fontSize:
-      "clamp(54px,13vw,80px)",
-    lineHeight: 0.95,
+    fontSize: "54px",
+    lineHeight: 1,
     fontWeight: 900,
-    letterSpacing: "-4px",
-    marginBottom: "24px",
+    letterSpacing: "-3px",
+    marginBottom: "20px",
   },
 
   subtitle: {
     fontSize: "17px",
     lineHeight: 1.8,
-    maxWidth: "340px",
+    maxWidth: "320px",
     margin: "0 auto",
   },
 
-  card: {
+  bottomArea: {
     position: "relative",
-    zIndex: 2,
-    borderRadius: "34px",
-    padding: "26px",
-    backdropFilter:
-      "blur(30px)",
-    border:
-      "1px solid rgba(255,255,255,0.08)",
+    zIndex: 5,
+    marginTop: "60px",
     animation:
-      "slideUp 1.2s ease",
-    overflow: "hidden",
+      "fadeUp 1.2s ease",
   },
 
-  shimmer: {
-    position: "absolute",
-    top: 0,
-    left: 0,
+  bigButton: {
     width: "100%",
-    height: "4px",
-    background:
-      "linear-gradient(90deg,transparent,#06b6d4,transparent)",
-    backgroundSize:
-      "400px 100%",
-    animation:
-      "shimmer 3s linear infinite",
-  },
-
-  tabs: {
-    display: "flex",
-    padding: "5px",
-    borderRadius: "18px",
-    background:
-      "rgba(255,255,255,0.05)",
-    marginBottom: "24px",
-  },
-
-  tabBtn: {
-    flex: 1,
-    padding: "15px",
+    padding: "24px",
+    borderRadius: "28px",
     border: "none",
-    background: "transparent",
-    borderRadius: "14px",
-    cursor: "pointer",
-    fontWeight: 700,
-    color: "#94a3b8",
-    transition: "0.3s",
-  },
-
-  activeTab: {
     background:
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
     color: "white",
+    fontWeight: 900,
+    fontSize: "20px",
+    cursor: "pointer",
     boxShadow:
-      "0 10px 30px rgba(124,58,237,0.35)",
+      "0 25px 60px rgba(124,58,237,0.45)",
+  },
+
+  inputArea: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "16px",
+  },
+
+  switchRow: {
+    display: "flex",
+    gap: "12px",
+    marginBottom: "10px",
+  },
+
+  switchBtn: {
+    flex: 1,
+    padding: "16px",
+    borderRadius: "18px",
+    border: "none",
+    background:
+      "rgba(255,255,255,0.08)",
+    color: "white",
+    fontWeight: 700,
+    cursor: "pointer",
+  },
+
+  activeSwitch: {
+    background:
+      "linear-gradient(135deg,#7c3aed,#06b6d4)",
   },
 
   input: {
     width: "100%",
     padding: "18px",
-    borderRadius: "18px",
+    borderRadius: "20px",
     border:
       "1px solid rgba(255,255,255,0.08)",
+    background:
+      "rgba(255,255,255,0.08)",
+    color: "white",
     outline: "none",
-    marginBottom: "16px",
-    fontSize: "15px",
+    fontSize: "16px",
     backdropFilter: "blur(10px)",
   },
 
-  error: {
-    color: "#ef4444",
-    marginBottom: "12px",
-    fontSize: "14px",
-  },
-
-  button: {
+  enterBtn: {
     width: "100%",
-    padding: "19px",
-    borderRadius: "20px",
+    padding: "20px",
+    borderRadius: "22px",
     border: "none",
     background:
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
     color: "white",
-    fontWeight: 800,
-    fontSize: "16px",
+    fontWeight: 900,
+    fontSize: "17px",
     cursor: "pointer",
-    marginTop: "8px",
+    marginTop: "10px",
     boxShadow:
       "0 20px 50px rgba(124,58,237,0.45)",
   },
 
-  footer: {
-    textAlign: "center",
-    fontSize: "13px",
-    marginTop: "20px",
+  error: {
+    color: "#ef4444",
+    fontSize: "14px",
   },
 
 };
