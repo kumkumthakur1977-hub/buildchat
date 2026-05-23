@@ -121,7 +121,7 @@ export default function MobileLoginPage() {
 
           body{
             margin:0;
-            overflow:hidden;
+            overflow-x:hidden;
           }
 
           @keyframes float {
@@ -201,7 +201,7 @@ export default function MobileLoginPage() {
         }}
       >
 
-        {/* BG */}
+        {/* BACKGROUND */}
         <div style={styles.glow1} />
         <div style={styles.glow2} />
         <div style={styles.glow3} />
@@ -342,7 +342,7 @@ export default function MobileLoginPage() {
 
         </div>
 
-        {/* INPUTS */}
+        {/* FORM */}
         <div style={styles.formArea}>
 
           <div style={styles.switchRow}>
@@ -460,9 +460,11 @@ const styles: any = {
 
   page: {
     minHeight: "100vh",
-    overflow: "hidden",
+    overflowX: "hidden",
+    overflowY: "auto",
     position: "relative",
-    padding: "24px",
+    padding:
+      "24px 24px 120px",
     fontFamily:
       "Inter, sans-serif",
   },
@@ -556,7 +558,7 @@ const styles: any = {
   hero: {
     position: "relative",
     textAlign: "center",
-    marginTop: "60px",
+    marginTop: "30px",
     zIndex: 3,
     animation:
       "fadeUp 1s ease",
@@ -599,12 +601,12 @@ const styles: any = {
   },
 
   aiFace: {
-    width: "140px",
-    height: "140px",
-    borderRadius: "40px",
+    width: "110px",
+    height: "110px",
+    borderRadius: "36px",
     background:
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
-    margin: "0 auto 30px",
+    margin: "0 auto 24px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -617,8 +619,8 @@ const styles: any = {
   },
 
   eye: {
-    width: "18px",
-    height: "18px",
+    width: "16px",
+    height: "16px",
     borderRadius: "50%",
     background: "white",
     transition:
@@ -627,12 +629,12 @@ const styles: any = {
 
   handLeft: {
     position: "absolute",
-    width: "40px",
-    height: "80px",
+    width: "34px",
+    height: "70px",
     background: "white",
     borderRadius: "30px",
-    left: "18px",
-    top: "12px",
+    left: "12px",
+    top: "8px",
     transform:
       "rotate(-35deg)",
     zIndex: 10,
@@ -640,27 +642,27 @@ const styles: any = {
 
   handRight: {
     position: "absolute",
-    width: "40px",
-    height: "80px",
+    width: "34px",
+    height: "70px",
     background: "white",
     borderRadius: "30px",
-    right: "18px",
-    top: "12px",
+    right: "12px",
+    top: "8px",
     transform:
       "rotate(35deg)",
     zIndex: 10,
   },
 
   heading: {
-    fontSize: "52px",
+    fontSize: "46px",
     fontWeight: 900,
     lineHeight: 1,
     letterSpacing: "-3px",
-    marginBottom: "18px",
+    marginBottom: "16px",
   },
 
   subtitle: {
-    fontSize: "17px",
+    fontSize: "16px",
     lineHeight: 1.7,
     maxWidth: "320px",
     margin: "0 auto",
@@ -677,7 +679,7 @@ const styles: any = {
   formArea: {
     position: "relative",
     zIndex: 5,
-    marginTop: "50px",
+    marginTop: "40px",
     display: "flex",
     flexDirection: "column",
     gap: "16px",
