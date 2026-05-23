@@ -354,7 +354,7 @@ export default function LoginPage() {
                                     : "#475569",
                             }}
                         >
-                            ✨ AI SaaS Platform
+                            ✨ Buildchat-pro
                         </div>
 
                         <h1
@@ -368,9 +368,10 @@ export default function LoginPage() {
                                     : "left",
                             }}
                         >
-                            Build AI Chatbots
+                            Build your Website
                             <br />
-                            For Your Business
+                            Smarter with us 
+                            
                         </h1>
 
                         <p
