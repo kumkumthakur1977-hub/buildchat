@@ -18,14 +18,11 @@ export default function MobileLoginPage() {
   const router =
     useRouter();
 
-  const [isLogin, setIsLogin] =
-    useState(true);
-
   const [darkMode, setDarkMode] =
     useState(true);
 
-  const [focusField, setFocusField] =
-    useState("");
+  const [isLogin, setIsLogin] =
+    useState(true);
 
   const [name, setName] =
     useState("");
@@ -45,7 +42,8 @@ export default function MobileLoginPage() {
   useEffect(() => {
 
     if (
-      typeof window !== "undefined" &&
+      typeof window !==
+        "undefined" &&
       window.innerWidth >= 768
     ) {
 
@@ -128,16 +126,12 @@ export default function MobileLoginPage() {
 
           setIsLogin(true);
 
-          setError(
-            "Account created successfully 🎉"
-          );
-
         }
 
       } catch {
 
         setError(
-          "Something went wrong."
+          "Something went wrong"
         );
 
       }
@@ -161,62 +155,11 @@ export default function MobileLoginPage() {
 
         body{
           margin:0;
-          overflow-x:hidden;
           font-family:Inter,sans-serif;
-          background:#020617;
         }
 
         input::placeholder{
           color:#94a3b8;
-        }
-
-        @keyframes float{
-
-          0%{
-            transform:
-              translateY(0px);
-          }
-
-          50%{
-            transform:
-              translateY(-16px);
-          }
-
-          100%{
-            transform:
-              translateY(0px);
-          }
-
-        }
-
-        @keyframes pulse{
-
-          0%{
-            transform:scale(1);
-          }
-
-          50%{
-            transform:scale(1.08);
-          }
-
-          100%{
-            transform:scale(1);
-          }
-
-        }
-
-        @keyframes rotate{
-
-          from{
-            transform:
-              rotate(0deg);
-          }
-
-          to{
-            transform:
-              rotate(360deg);
-          }
-
         }
 
         @keyframes fadeUp{
@@ -224,7 +167,7 @@ export default function MobileLoginPage() {
           from{
             opacity:0;
             transform:
-              translateY(50px);
+              translateY(20px);
           }
 
           to{
@@ -235,21 +178,21 @@ export default function MobileLoginPage() {
 
         }
 
-        @keyframes wave{
+        @keyframes pulse{
 
           0%{
-            transform:
-              rotate(0deg);
+            transform:scale(1);
+            opacity:.5;
           }
 
           50%{
-            transform:
-              rotate(8deg);
+            transform:scale(1.08);
+            opacity:1;
           }
 
           100%{
-            transform:
-              rotate(0deg);
+            transform:scale(1);
+            opacity:.5;
           }
 
         }
@@ -260,40 +203,40 @@ export default function MobileLoginPage() {
       <div
         style={{
           ...styles.page,
-          background: darkMode
-            ? "#020617"
-            : "#f8fafc",
+          background:
+            darkMode
+              ? "#020617"
+              : "#f8fafc",
         }}
       >
 
-        {/* GRID */}
+        {/* BG GLOW */}
         <div
           style={{
-            ...styles.grid,
+            ...styles.glow1,
             opacity:
               darkMode
                 ? 1
-                : 0.05,
+                : 0.4,
           }}
         />
 
-        {/* GLOWS */}
-        <div style={styles.glow1} />
+        <div
+          style={{
+            ...styles.glow2,
+            opacity:
+              darkMode
+                ? 1
+                : 0.3,
+          }}
+        />
 
-        <div style={styles.glow2} />
+        {/* TOP */}
+        <div style={styles.top}>
 
-        <div style={styles.glow3} />
-
-        {/* TOPBAR */}
-        <div style={styles.topbar}>
-
-          <div style={styles.logoArea}>
-
-            <div
-              style={
-                styles.logoRing
-              }
-            />
+          <div
+            style={styles.logoWrap}
+          >
 
             <div style={styles.logo}>
               BC
@@ -336,7 +279,7 @@ export default function MobileLoginPage() {
               )
             }
             style={{
-              ...styles.toggle,
+              ...styles.themeBtn,
               background:
                 darkMode
                   ? "rgba(255,255,255,0.08)"
@@ -357,102 +300,12 @@ export default function MobileLoginPage() {
         {/* HERO */}
         <div style={styles.hero}>
 
-          <div style={styles.ball1} />
-
-          <div style={styles.ball2} />
-
-          <div style={styles.ball3} />
-
-          {/* ROBOT */}
-          <div style={styles.robotCard}>
-
-            <div
-              style={
-                styles.robotGlow
-              }
-            />
-
-            <div style={styles.robot}>
-
-              {/* HANDS */}
-              {focusField ===
-                "password" && (
-                <>
-                  <div
-                    style={
-                      styles.handLeft
-                    }
-                  />
-
-                  <div
-                    style={
-                      styles.handRight
-                    }
-                  />
-                </>
-              )}
-
-              {/* EYES */}
-              <div
-                style={{
-                  ...styles.eye,
-                  transform:
-                    focusField ===
-                    "email"
-                      ? `translateX(${Math.min(
-                          email.length *
-                            2,
-                          12
-                        )}px)`
-                      : "translateX(0px)",
-
-                  opacity:
-                    focusField ===
-                    "password"
-                      ? 0
-                      : 1,
-                }}
-              />
-
-              <div
-                style={{
-                  ...styles.eye,
-                  transform:
-                    focusField ===
-                    "email"
-                      ? `translateX(${Math.min(
-                          email.length *
-                            2,
-                          12
-                        )}px)`
-                      : "translateX(0px)",
-
-                  opacity:
-                    focusField ===
-                    "password"
-                      ? 0
-                      : 1,
-                }}
-              />
-
-              {/* MOUTH */}
-              <div
-                style={
-                  styles.mouth
-                }
-              />
-
-            </div>
-
-          </div>
-
-          {/* BADGE */}
           <div
             style={{
-              ...styles.badge,
+              ...styles.heroBadge,
               background:
                 darkMode
-                  ? "rgba(255,255,255,0.08)"
+                  ? "rgba(255,255,255,0.06)"
                   : "white",
               color:
                 darkMode
@@ -460,10 +313,9 @@ export default function MobileLoginPage() {
                   : "#475569",
             }}
           >
-            ✨ Trusted by AI Teams
+            ✨ Modern AI Platform
           </div>
 
-          {/* TITLE */}
           <h1
             style={{
               ...styles.heading,
@@ -473,9 +325,8 @@ export default function MobileLoginPage() {
                   : "#0f172a",
             }}
           >
-            Build AI Chatbots
-            <br />
-            For Modern Teams
+            Build smarter
+            AI chatbots
           </h1>
 
           <p
@@ -487,61 +338,34 @@ export default function MobileLoginPage() {
                   : "#64748b",
             }}
           >
-            Launch powerful AI
-            assistants trained on
-            your business knowledge,
-            workflows and documents.
+            Create AI assistants
+            trained on your
+            business data,
+            workflows and
+            documents.
           </p>
-
-          {/* HOOK */}
-          <div
-            style={
-              styles.hookWrap
-            }
-          >
-
-            {focusField ===
-              "" && (
-              <span>
-                ⚡ Enterprise-ready
-                AI platform
-              </span>
-            )}
-
-            {focusField ===
-              "email" && (
-              <span>
-                👀 Nice email
-                choice
-              </span>
-            )}
-
-            {focusField ===
-              "password" && (
-              <span>
-                🙈 Password secured
-              </span>
-            )}
-
-          </div>
 
         </div>
 
-        {/* AUTH */}
+        {/* CARD */}
         <div
           style={{
-            ...styles.authWrap,
+            ...styles.card,
             background:
               darkMode
                 ? "rgba(255,255,255,0.06)"
                 : "rgba(255,255,255,0.92)",
+            border:
+              darkMode
+                ? "1px solid rgba(255,255,255,0.08)"
+                : "1px solid rgba(15,23,42,0.06)",
           }}
         >
 
           {/* SWITCH */}
           <div
             style={{
-              ...styles.switchWrap,
+              ...styles.tabs,
               background:
                 darkMode
                   ? "rgba(255,255,255,0.04)"
@@ -556,9 +380,9 @@ export default function MobileLoginPage() {
                 )
               }
               style={{
-                ...styles.switchBtn,
+                ...styles.tabBtn,
                 ...(isLogin
-                  ? styles.activeBtn
+                  ? styles.activeTab
                   : {}),
               }}
             >
@@ -572,9 +396,9 @@ export default function MobileLoginPage() {
                 )
               }
               style={{
-                ...styles.switchBtn,
+                ...styles.tabBtn,
                 ...(!isLogin
-                  ? styles.activeBtn
+                  ? styles.activeTab
                   : {}),
               }}
             >
@@ -583,14 +407,41 @@ export default function MobileLoginPage() {
 
           </div>
 
-          {/* NAME */}
-          {!isLogin && (
+          {/* INPUTS */}
+          <div
+            style={styles.form}
+          >
+
+            {!isLogin && (
+              <input
+                type="text"
+                placeholder="Full Name"
+                value={name}
+                onChange={(e) =>
+                  setName(
+                    e.target.value
+                  )
+                }
+                style={{
+                  ...styles.input,
+                  background:
+                    darkMode
+                      ? "rgba(255,255,255,0.04)"
+                      : "white",
+                  color:
+                    darkMode
+                      ? "white"
+                      : "#0f172a",
+                }}
+              />
+            )}
+
             <input
-              type="text"
-              placeholder="Full Name"
-              value={name}
+              type="email"
+              placeholder="Email Address"
+              value={email}
               onChange={(e) =>
-                setName(
+                setEmail(
                   e.target.value
                 )
               }
@@ -606,91 +457,57 @@ export default function MobileLoginPage() {
                     : "#0f172a",
               }}
             />
-          )}
 
-          {/* EMAIL */}
-          <input
-            type="email"
-            placeholder="Email Address"
-            value={email}
-            onFocus={() =>
-              setFocusField(
-                "email"
-              )
-            }
-            onBlur={() =>
-              setFocusField("")
-            }
-            onChange={(e) =>
-              setEmail(
-                e.target.value
-              )
-            }
-            style={{
-              ...styles.input,
-              background:
-                darkMode
-                  ? "rgba(255,255,255,0.04)"
-                  : "white",
-              color:
-                darkMode
-                  ? "white"
-                  : "#0f172a",
-            }}
-          />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) =>
+                setPassword(
+                  e.target.value
+                )
+              }
+              style={{
+                ...styles.input,
+                background:
+                  darkMode
+                    ? "rgba(255,255,255,0.04)"
+                    : "white",
+                color:
+                  darkMode
+                    ? "white"
+                    : "#0f172a",
+              }}
+            />
 
-          {/* PASSWORD */}
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onFocus={() =>
-              setFocusField(
-                "password"
-              )
-            }
-            onBlur={() =>
-              setFocusField("")
-            }
-            onChange={(e) =>
-              setPassword(
-                e.target.value
-              )
-            }
-            style={{
-              ...styles.input,
-              background:
-                darkMode
-                  ? "rgba(255,255,255,0.04)"
-                  : "white",
-              color:
-                darkMode
-                  ? "white"
-                  : "#0f172a",
-            }}
-          />
+            {error && (
+              <p
+                style={
+                  styles.error
+                }
+              >
+                {error}
+              </p>
+            )}
 
-          {/* ERROR */}
-          {error && (
-            <p style={styles.error}>
-              {error}
-            </p>
-          )}
+            <button
+              onClick={
+                handleAuth
+              }
+              disabled={loading}
+              style={
+                styles.button
+              }
+            >
+              {loading
+                ? "Please wait..."
+                : isLogin
+                ? "Continue"
+                : "Create Account"}
+            </button>
 
-          {/* BUTTON */}
-          <button
-            onClick={handleAuth}
-            disabled={loading}
-            style={styles.button}
-          >
-            {loading
-              ? "Loading..."
-              : isLogin
-              ? "Continue →"
-              : "Create Account"}
-          </button>
+          </div>
 
-          {/* FOOTER */}
           <p
             style={{
               ...styles.footer,
@@ -716,102 +533,71 @@ const styles: any = {
   page: {
     minHeight: "100vh",
     position: "relative",
-    overflowX: "hidden",
-    overflowY: "auto",
+    overflow: "hidden",
     padding:
-      "24px 22px 120px",
-  },
-
-  grid: {
-    position: "absolute",
-    inset: 0,
-    backgroundImage:
-      "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
-    backgroundSize:
-      "40px 40px",
+      "24px 20px 50px",
   },
 
   glow1: {
     position: "absolute",
-    width: "340px",
-    height: "340px",
-    background:
-      "rgba(124,58,237,0.30)",
+    width: "300px",
+    height: "300px",
     borderRadius: "50%",
-    filter: "blur(130px)",
-    top: "-120px",
-    left: "-100px",
+    background:
+      "rgba(124,58,237,0.25)",
+    filter: "blur(120px)",
+    top: "-100px",
+    left: "-120px",
+    animation:
+      "pulse 6s ease infinite",
   },
 
   glow2: {
     position: "absolute",
-    width: "320px",
-    height: "320px",
-    background:
-      "rgba(6,182,212,0.24)",
+    width: "260px",
+    height: "260px",
     borderRadius: "50%",
+    background:
+      "rgba(6,182,212,0.22)",
     filter: "blur(120px)",
-    bottom: "-120px",
+    bottom: "-100px",
     right: "-100px",
+    animation:
+      "pulse 7s ease infinite",
   },
 
-  glow3: {
-    position: "absolute",
-    width: "220px",
-    height: "220px",
-    background:
-      "rgba(236,72,153,0.18)",
-    borderRadius: "50%",
-    filter: "blur(100px)",
-    top: "40%",
-    left: "30%",
-  },
-
-  topbar: {
+  top: {
     position: "relative",
-    zIndex: 5,
+    zIndex: 2,
     display: "flex",
     justifyContent:
       "space-between",
     alignItems: "center",
+    marginBottom: "60px",
+    animation:
+      "fadeUp .7s ease",
   },
 
-  logoArea: {
+  logoWrap: {
     display: "flex",
     alignItems: "center",
     gap: "14px",
   },
 
-  logoRing: {
-    position: "absolute",
-    inset: 0,
-    border:
-      "2px solid rgba(255,255,255,0.10)",
-    borderRadius: "50%",
-    animation:
-      "rotate 12s linear infinite",
-  },
-
-  logoWrap: {
-    position: "relative",
-    width: "74px",
-    height: "74px",
-  },
-
   logo: {
-    position: "absolute",
-    inset: "8px",
-    borderRadius: "24px",
+    width: "58px",
+    height: "58px",
+    borderRadius: "20px",
     background:
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     color: "white",
-    fontWeight: 900,
-    fontSize: "22px",
+    fontWeight: 800,
+    fontSize: "18px",
     boxShadow:
-      "0 25px 60px rgba(124,58,237,0.45)",
+      "0 20px 40px rgba(124,58,237,0.35)",
   },
 
   brand: {
@@ -825,253 +611,136 @@ const styles: any = {
     fontSize: "13px",
   },
 
-  toggle: {
-    width: "52px",
-    height: "52px",
+  themeBtn: {
+    width: "50px",
+    height: "50px",
     borderRadius: "18px",
     border: "none",
     cursor: "pointer",
     fontSize: "18px",
+    backdropFilter:
+      "blur(20px)",
   },
 
   hero: {
     position: "relative",
-    zIndex: 5,
-    textAlign: "center",
-    marginTop: "40px",
+    zIndex: 2,
     animation:
       "fadeUp 1s ease",
   },
 
-  ball1: {
-    position: "absolute",
-    width: "16px",
-    height: "16px",
-    borderRadius: "50%",
-    background: "#7c3aed",
-    left: "20px",
-    top: "10px",
-    animation:
-      "float 4s infinite",
-  },
-
-  ball2: {
-    position: "absolute",
-    width: "12px",
-    height: "12px",
-    borderRadius: "50%",
-    background: "#06b6d4",
-    right: "30px",
-    top: "100px",
-    animation:
-      "float 5s infinite",
-  },
-
-  ball3: {
-    position: "absolute",
-    width: "10px",
-    height: "10px",
-    borderRadius: "50%",
-    background: "#ec4899",
-    left: "70px",
-    bottom: "20px",
-    animation:
-      "float 3s infinite",
-  },
-
-  robotCard: {
-    position: "relative",
-    width: "180px",
-    height: "180px",
-    margin:
-      "0 auto 28px",
-  },
-
-  robotGlow: {
-    position: "absolute",
-    inset: 0,
-    borderRadius: "50%",
-    background:
-      "rgba(124,58,237,0.28)",
-    filter: "blur(50px)",
-    animation:
-      "pulse 4s infinite",
-  },
-
-  robot: {
-    position: "relative",
-    width: "140px",
-    height: "140px",
-    borderRadius: "42px",
-    background:
-      "linear-gradient(135deg,#7c3aed,#06b6d4)",
-    margin: "20px auto",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "20px",
-    boxShadow:
-      "0 30px 80px rgba(124,58,237,0.45)",
-    animation:
-      "float 5s infinite",
-  },
-
-  eye: {
-    width: "16px",
-    height: "16px",
-    borderRadius: "50%",
-    background: "white",
-    transition:
-      "all 0.2s ease",
-  },
-
-  mouth: {
-    position: "absolute",
-    width: "34px",
-    height: "8px",
-    background: "white",
-    borderRadius: "20px",
-    bottom: "32px",
-  },
-
-  handLeft: {
-    position: "absolute",
-    width: "34px",
-    height: "74px",
-    background: "white",
-    borderRadius: "40px",
-    left: "12px",
-    top: "12px",
-    transform:
-      "rotate(-35deg)",
-  },
-
-  handRight: {
-    position: "absolute",
-    width: "34px",
-    height: "74px",
-    background: "white",
-    borderRadius: "40px",
-    right: "12px",
-    top: "12px",
-    transform:
-      "rotate(35deg)",
-  },
-
-  badge: {
+  heroBadge: {
     display: "inline-flex",
     padding: "10px 18px",
     borderRadius: "999px",
     fontSize: "13px",
     fontWeight: 700,
-    marginBottom: "22px",
+    marginBottom: "24px",
     backdropFilter:
-      "blur(14px)",
+      "blur(20px)",
   },
 
   heading: {
-    fontSize: "48px",
+    fontSize: "52px",
     lineHeight: 1,
     letterSpacing: "-3px",
     fontWeight: 900,
-    marginBottom: "18px",
+    marginBottom: "20px",
   },
 
   subtitle: {
     fontSize: "16px",
     lineHeight: 1.8,
     maxWidth: "320px",
-    margin: "0 auto",
   },
 
-  hookWrap: {
-    marginTop: "18px",
-    minHeight: "22px",
-    color: "#cbd5e1",
-    fontWeight: 700,
-    fontSize: "15px",
-  },
-
-  authWrap: {
+  card: {
     position: "relative",
-    zIndex: 5,
-    marginTop: "42px",
+    zIndex: 2,
+    marginTop: "45px",
     borderRadius: "34px",
-    padding: "24px",
+    padding: "22px",
     backdropFilter:
-      "blur(24px)",
-    border:
-      "1px solid rgba(255,255,255,0.08)",
+      "blur(30px)",
     animation:
       "fadeUp 1.2s ease",
+    boxShadow:
+      "0 20px 60px rgba(0,0,0,0.12)",
   },
 
-  switchWrap: {
+  tabs: {
     display: "flex",
     padding: "5px",
-    borderRadius: "22px",
-    marginBottom: "18px",
-  },
-
-  switchBtn: {
-    flex: 1,
-    padding: "16px",
-    border: "none",
-    background: "transparent",
     borderRadius: "18px",
-    color: "#94a3b8",
-    fontWeight: 800,
-    cursor: "pointer",
-    transition:
-      "all 0.25s ease",
+    marginBottom: "20px",
   },
 
-  activeBtn: {
+  tabBtn: {
+    flex: 1,
+    padding: "14px",
+    border: "none",
+    borderRadius: "14px",
+    background: "transparent",
+    cursor: "pointer",
+    fontWeight: 700,
+    color: "#94a3b8",
+    transition:
+      "all .25s ease",
+  },
+
+  activeTab: {
     background:
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
     color: "white",
     boxShadow:
-      "0 14px 40px rgba(124,58,237,0.35)",
+      "0 14px 30px rgba(124,58,237,0.25)",
+  },
+
+  form: {
+    display: "flex",
+    flexDirection:
+      "column",
+    gap: "14px",
   },
 
   input: {
     width: "100%",
-    padding: "20px",
-    borderRadius: "22px",
+    padding: "18px",
+    borderRadius: "18px",
     border:
-      "1px solid rgba(255,255,255,0.08)",
+      "1px solid rgba(255,255,255,0.06)",
     outline: "none",
-    fontSize: "16px",
-    marginBottom: "14px",
-    backdropFilter:
-      "blur(16px)",
+    fontSize: "15px",
+    transition:
+      "all .25s ease",
   },
 
   button: {
+    marginTop: "10px",
     width: "100%",
-    padding: "20px",
-    borderRadius: "24px",
+    padding: "18px",
+    borderRadius: "20px",
     border: "none",
     background:
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
     color: "white",
-    fontWeight: 900,
+    fontWeight: 800,
     fontSize: "16px",
     cursor: "pointer",
     boxShadow:
-      "0 25px 60px rgba(124,58,237,0.45)",
+      "0 20px 40px rgba(124,58,237,0.35)",
   },
 
   error: {
     color: "#ef4444",
     fontSize: "14px",
-    marginBottom: "12px",
+    margin: 0,
   },
 
   footer: {
     textAlign: "center",
     fontSize: "13px",
-    marginTop: "18px",
+    marginTop: "20px",
   },
 
 };
