@@ -265,7 +265,7 @@ export default function MobileLoginPage() {
                       : "#64748b",
                 }}
               >
-                AI Workspace
+                ai space
               </p>
 
             </div>
@@ -325,8 +325,9 @@ export default function MobileLoginPage() {
                   : "#0f172a",
             }}
           >
-            Build your website smarter with 
-            custom AI assistants.
+            Build your website smarter 
+            with us.
+            
             
           </h1>
 
@@ -341,9 +342,10 @@ export default function MobileLoginPage() {
           >
             build AI assistants
             trained on your
-            business data,
-            workflows and
-            documents.
+            business data
+            that make your bussiness smarter
+            
+            
           </p>
 
         </div>
