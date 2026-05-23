@@ -313,7 +313,7 @@ export default function MobileLoginPage() {
                   : "#475569",
             }}
           >
-            ✨ Modern AI Platform
+            buildchat-pro
           </div>
 
           <h1
@@ -325,8 +325,9 @@ export default function MobileLoginPage() {
                   : "#0f172a",
             }}
           >
-            Build smarter
-            AI chatbots
+            Build your website smarter with 
+            custom AI assistants.
+            
           </h1>
 
           <p
@@ -338,7 +339,7 @@ export default function MobileLoginPage() {
                   : "#64748b",
             }}
           >
-            Create AI assistants
+            build AI assistants
             trained on your
             business data,
             workflows and
@@ -517,8 +518,8 @@ export default function MobileLoginPage() {
                   : "#64748b",
             }}
           >
-            Secure authentication
-            powered by Supabase
+            Secure your data with us.
+            
           </p>
 
         </div>
