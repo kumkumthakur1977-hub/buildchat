@@ -149,10 +149,6 @@ export default function MobileLoginPage() {
           box-sizing:border-box;
         }
 
-        html{
-          scroll-behavior:smooth;
-        }
-
         body{
           margin:0;
           font-family:Inter,sans-serif;
@@ -167,7 +163,7 @@ export default function MobileLoginPage() {
           from{
             opacity:0;
             transform:
-              translateY(20px);
+              translateY(25px);
           }
 
           to{
@@ -228,7 +224,7 @@ export default function MobileLoginPage() {
 
           50%{
             transform:
-              translateY(-6px);
+              translateY(-5px);
           }
 
           100%{
@@ -258,7 +254,7 @@ export default function MobileLoginPage() {
             opacity:
               darkMode
                 ? 1
-                : 0.4,
+                : .4,
           }}
         />
 
@@ -268,7 +264,7 @@ export default function MobileLoginPage() {
             opacity:
               darkMode
                 ? 1
-                : 0.3,
+                : .3,
           }}
         />
 
@@ -341,115 +337,6 @@ export default function MobileLoginPage() {
         {/* HERO */}
         <div style={styles.hero}>
 
-          {/* AI PREVIEW */}
-          <div style={styles.aiPreview}>
-
-            <div
-              style={styles.aiTop}
-            >
-
-              <div
-                style={
-                  styles.aiDots
-                }
-              >
-
-                <span
-                  style={
-                    styles.dot1
-                  }
-                ></span>
-
-                <span
-                  style={
-                    styles.dot2
-                  }
-                ></span>
-
-                <span
-                  style={
-                    styles.dot3
-                  }
-                ></span>
-
-              </div>
-
-              <p
-                style={
-                  styles.aiTitle
-                }
-              >
-                BuildChat AI
-              </p>
-
-            </div>
-
-            <div
-              style={
-                styles.chatArea
-              }
-            >
-
-              <div
-                style={
-                  styles.userBubble
-                }
-              >
-                How can I automate
-                my support?
-              </div>
-
-              <div
-                style={
-                  styles.typingWrap
-                }
-              >
-
-                <div
-                  style={
-                    styles.typingBubble
-                  }
-                >
-
-                  <span
-                    style={
-                      styles.typingDot
-                    }
-                  ></span>
-
-                  <span
-                    style={{
-                      ...styles.typingDot,
-                      animationDelay:
-                        ".2s",
-                    }}
-                  ></span>
-
-                  <span
-                    style={{
-                      ...styles.typingDot,
-                      animationDelay:
-                        ".4s",
-                    }}
-                  ></span>
-
-                </div>
-
-              </div>
-
-              <div
-                style={
-                  styles.aiBubble
-                }
-              >
-                Your AI assistant
-                is ready ⚡
-              </div>
-
-            </div>
-
-          </div>
-
           <div
             style={{
               ...styles.heroBadge,
@@ -497,7 +384,7 @@ export default function MobileLoginPage() {
 
         </div>
 
-        {/* CARD */}
+        {/* LOGIN CARD */}
         <div
           style={{
             ...styles.card,
@@ -525,9 +412,7 @@ export default function MobileLoginPage() {
 
             <button
               onClick={() =>
-                setIsLogin(
-                  true
-                )
+                setIsLogin(true)
               }
               style={{
                 ...styles.tabBtn,
@@ -541,9 +426,7 @@ export default function MobileLoginPage() {
 
             <button
               onClick={() =>
-                setIsLogin(
-                  false
-                )
+                setIsLogin(false)
               }
               style={{
                 ...styles.tabBtn,
@@ -558,9 +441,7 @@ export default function MobileLoginPage() {
           </div>
 
           {/* FORM */}
-          <div
-            style={styles.form}
-          >
+          <div style={styles.form}>
 
             {!isLogin && (
               <input
@@ -673,6 +554,115 @@ export default function MobileLoginPage() {
 
         </div>
 
+        {/* BOTTOM AI ANIMATION */}
+        <div style={styles.aiPreview}>
+
+          <div
+            style={styles.aiTop}
+          >
+
+            <div
+              style={
+                styles.aiDots
+              }
+            >
+
+              <span
+                style={
+                  styles.dot1
+                }
+              ></span>
+
+              <span
+                style={
+                  styles.dot2
+                }
+              ></span>
+
+              <span
+                style={
+                  styles.dot3
+                }
+              ></span>
+
+            </div>
+
+            <p
+              style={
+                styles.aiTitle
+              }
+            >
+              BuildChat AI
+            </p>
+
+          </div>
+
+          <div
+            style={
+              styles.chatArea
+            }
+          >
+
+            <div
+              style={
+                styles.userBubble
+              }
+            >
+              How can I automate
+              my support?
+            </div>
+
+            <div
+              style={
+                styles.typingWrap
+              }
+            >
+
+              <div
+                style={
+                  styles.typingBubble
+                }
+              >
+
+                <span
+                  style={
+                    styles.typingDot
+                  }
+                ></span>
+
+                <span
+                  style={{
+                    ...styles.typingDot,
+                    animationDelay:
+                      ".2s",
+                  }}
+                ></span>
+
+                <span
+                  style={{
+                    ...styles.typingDot,
+                    animationDelay:
+                      ".4s",
+                  }}
+                ></span>
+
+              </div>
+
+            </div>
+
+            <div
+              style={
+                styles.aiBubble
+              }
+            >
+              Your AI assistant
+              is ready ⚡
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
     </>
   );
@@ -683,9 +673,9 @@ const styles: any = {
   page: {
     minHeight: "100vh",
     position: "relative",
-    overflow: "hidden",
+    overflowX: "hidden",
     padding:
-      "24px 20px 50px",
+      "24px 20px 40px",
   },
 
   glow1: {
@@ -696,7 +686,7 @@ const styles: any = {
     background:
       "rgba(124,58,237,0.25)",
     filter: "blur(120px)",
-    top: "-100px",
+    top: "-120px",
     left: "-120px",
     animation:
       "pulse 6s ease infinite",
@@ -710,7 +700,7 @@ const styles: any = {
     background:
       "rgba(6,182,212,0.22)",
     filter: "blur(120px)",
-    bottom: "-100px",
+    bottom: "-120px",
     right: "-100px",
     animation:
       "pulse 7s ease infinite",
@@ -723,7 +713,7 @@ const styles: any = {
     justifyContent:
       "space-between",
     alignItems: "center",
-    marginBottom: "50px",
+    marginBottom: "40px",
     animation:
       "fadeUp .7s ease",
   },
@@ -777,13 +767,125 @@ const styles: any = {
     zIndex: 2,
     animation:
       "fadeUp 1s ease",
+    marginBottom: "34px",
+  },
+
+  heroBadge: {
+    display: "inline-flex",
+    padding: "10px 18px",
+    borderRadius: "999px",
+    fontSize: "13px",
+    fontWeight: 700,
+    marginBottom: "24px",
+    backdropFilter:
+      "blur(20px)",
+  },
+
+  heading: {
+    fontSize: "52px",
+    lineHeight: 1,
+    letterSpacing: "-3px",
+    fontWeight: 900,
+    marginBottom: "20px",
+  },
+
+  subtitle: {
+    fontSize: "16px",
+    lineHeight: 1.8,
+    maxWidth: "320px",
+  },
+
+  card: {
+    position: "relative",
+    zIndex: 2,
+    borderRadius: "34px",
+    padding: "22px",
+    backdropFilter:
+      "blur(30px)",
+    animation:
+      "fadeUp 1.2s ease",
+    boxShadow:
+      "0 20px 60px rgba(0,0,0,0.12)",
+    marginBottom: "34px",
+  },
+
+  tabs: {
+    display: "flex",
+    padding: "5px",
+    borderRadius: "18px",
+    marginBottom: "20px",
+  },
+
+  tabBtn: {
+    flex: 1,
+    padding: "14px",
+    border: "none",
+    borderRadius: "14px",
+    background: "transparent",
+    cursor: "pointer",
+    fontWeight: 700,
+    color: "#94a3b8",
+    transition:
+      "all .25s ease",
+  },
+
+  activeTab: {
+    background:
+      "linear-gradient(135deg,#7c3aed,#06b6d4)",
+    color: "white",
+    boxShadow:
+      "0 14px 30px rgba(124,58,237,0.25)",
+  },
+
+  form: {
+    display: "flex",
+    flexDirection:
+      "column",
+    gap: "14px",
+  },
+
+  input: {
+    width: "100%",
+    padding: "18px",
+    borderRadius: "18px",
+    border:
+      "1px solid rgba(255,255,255,0.06)",
+    outline: "none",
+    fontSize: "15px",
+  },
+
+  button: {
+    marginTop: "10px",
+    width: "100%",
+    padding: "18px",
+    borderRadius: "20px",
+    border: "none",
+    background:
+      "linear-gradient(135deg,#7c3aed,#06b6d4)",
+    color: "white",
+    fontWeight: 800,
+    fontSize: "16px",
+    cursor: "pointer",
+    boxShadow:
+      "0 20px 40px rgba(124,58,237,0.35)",
+  },
+
+  error: {
+    color: "#ef4444",
+    fontSize: "14px",
+    margin: 0,
+  },
+
+  footer: {
+    textAlign: "center",
+    fontSize: "13px",
+    marginTop: "20px",
   },
 
   aiPreview: {
     width: "100%",
     borderRadius: "28px",
     padding: "18px",
-    marginBottom: "32px",
     background:
       "rgba(255,255,255,0.05)",
     border:
@@ -792,6 +894,9 @@ const styles: any = {
       "blur(24px)",
     animation:
       "floatCard 5s ease-in-out infinite",
+    position: "relative",
+    zIndex: 2,
+    marginBottom: "20px",
   },
 
   aiTop: {
@@ -890,118 +995,6 @@ const styles: any = {
     maxWidth: "240px",
     boxShadow:
       "0 10px 25px rgba(124,58,237,0.25)",
-  },
-
-  heroBadge: {
-    display: "inline-flex",
-    padding: "10px 18px",
-    borderRadius: "999px",
-    fontSize: "13px",
-    fontWeight: 700,
-    marginBottom: "24px",
-    backdropFilter:
-      "blur(20px)",
-  },
-
-  heading: {
-    fontSize: "52px",
-    lineHeight: 1,
-    letterSpacing: "-3px",
-    fontWeight: 900,
-    marginBottom: "20px",
-  },
-
-  subtitle: {
-    fontSize: "16px",
-    lineHeight: 1.8,
-    maxWidth: "320px",
-  },
-
-  card: {
-    position: "relative",
-    zIndex: 2,
-    marginTop: "45px",
-    borderRadius: "34px",
-    padding: "22px",
-    backdropFilter:
-      "blur(30px)",
-    animation:
-      "fadeUp 1.2s ease",
-    boxShadow:
-      "0 20px 60px rgba(0,0,0,0.12)",
-  },
-
-  tabs: {
-    display: "flex",
-    padding: "5px",
-    borderRadius: "18px",
-    marginBottom: "20px",
-  },
-
-  tabBtn: {
-    flex: 1,
-    padding: "14px",
-    border: "none",
-    borderRadius: "14px",
-    background: "transparent",
-    cursor: "pointer",
-    fontWeight: 700,
-    color: "#94a3b8",
-    transition:
-      "all .25s ease",
-  },
-
-  activeTab: {
-    background:
-      "linear-gradient(135deg,#7c3aed,#06b6d4)",
-    color: "white",
-    boxShadow:
-      "0 14px 30px rgba(124,58,237,0.25)",
-  },
-
-  form: {
-    display: "flex",
-    flexDirection:
-      "column",
-    gap: "14px",
-  },
-
-  input: {
-    width: "100%",
-    padding: "18px",
-    borderRadius: "18px",
-    border:
-      "1px solid rgba(255,255,255,0.06)",
-    outline: "none",
-    fontSize: "15px",
-  },
-
-  button: {
-    marginTop: "10px",
-    width: "100%",
-    padding: "18px",
-    borderRadius: "20px",
-    border: "none",
-    background:
-      "linear-gradient(135deg,#7c3aed,#06b6d4)",
-    color: "white",
-    fontWeight: 800,
-    fontSize: "16px",
-    cursor: "pointer",
-    boxShadow:
-      "0 20px 40px rgba(124,58,237,0.35)",
-  },
-
-  error: {
-    color: "#ef4444",
-    fontSize: "14px",
-    margin: 0,
-  },
-
-  footer: {
-    textAlign: "center",
-    fontSize: "13px",
-    marginTop: "20px",
   },
 
 };
