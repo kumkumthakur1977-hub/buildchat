@@ -15,14 +15,14 @@ export default function MobileLoginPage() {
 
   const router = useRouter();
 
-  const [step, setStep] =
-    useState(0);
-
   const [isLogin, setIsLogin] =
     useState(true);
 
   const [darkMode, setDarkMode] =
     useState(true);
+
+  const [focusField, setFocusField] =
+    useState("");
 
   const [name, setName] =
     useState("");
@@ -115,82 +115,81 @@ export default function MobileLoginPage() {
       <style>
         {`
 
-        *{
-          box-sizing:border-box;
-        }
-
-        body{
-          margin:0;
-          overflow:hidden;
-        }
-
-        @keyframes float {
-
-          0%{
-            transform:
-              translateY(0px)
-              rotate(0deg);
+          *{
+            box-sizing:border-box;
           }
 
-          50%{
-            transform:
-              translateY(-20px)
-              rotate(8deg);
+          body{
+            margin:0;
+            overflow:hidden;
           }
 
-          100%{
-            transform:
-              translateY(0px)
-              rotate(0deg);
+          @keyframes float {
+
+            0%{
+              transform:
+                translateY(0px);
+            }
+
+            50%{
+              transform:
+                translateY(-15px);
+            }
+
+            100%{
+              transform:
+                translateY(0px);
+            }
+
           }
 
-        }
+          @keyframes pulse {
 
-        @keyframes pulse {
+            0%{
+              transform:scale(1);
+            }
 
-          0%{
-            transform:scale(1);
+            50%{
+              transform:scale(1.08);
+            }
+
+            100%{
+              transform:scale(1);
+            }
+
           }
 
-          50%{
-            transform:scale(1.15);
+          @keyframes fadeUp {
+
+            from{
+              opacity:0;
+              transform:
+                translateY(40px);
+            }
+
+            to{
+              opacity:1;
+              transform:
+                translateY(0px);
+            }
+
           }
 
-          100%{
-            transform:scale(1);
+          @keyframes rotate {
+
+            from{
+              transform:
+                rotate(0deg);
+            }
+
+            to{
+              transform:
+                rotate(360deg);
+            }
+
           }
 
-        }
-
-        @keyframes fadeUp {
-
-          from{
-            opacity:0;
-            transform:
-              translateY(50px);
-          }
-
-          to{
-            opacity:1;
-            transform:
-              translateY(0px);
-          }
-
-        }
-
-        @keyframes rotate {
-
-          from{
-            transform:rotate(0deg);
-          }
-
-          to{
-            transform:rotate(360deg);
-          }
-
-        }
-
-      `}
+        `}
       </style>
 
       <div
@@ -202,7 +201,7 @@ export default function MobileLoginPage() {
         }}
       >
 
-        {/* BACKGROUND */}
+        {/* BG */}
         <div style={styles.glow1} />
         <div style={styles.glow2} />
         <div style={styles.glow3} />
@@ -246,10 +245,59 @@ export default function MobileLoginPage() {
           <div style={styles.orb2} />
           <div style={styles.orb3} />
 
+          {/* AI FACE */}
           <div style={styles.aiFace}>
 
-            <div style={styles.eye} />
-            <div style={styles.eye} />
+            {focusField ===
+              "password" && (
+              <>
+                <div
+                  style={
+                    styles.handLeft
+                  }
+                />
+
+                <div
+                  style={
+                    styles.handRight
+                  }
+                />
+              </>
+            )}
+
+            <div
+              style={{
+                ...styles.eye,
+                transform:
+                  focusField ===
+                    "email"
+                    ? `translateX(${email.length * 1.5
+                    }px)`
+                    : "translateX(0px)",
+                opacity:
+                  focusField ===
+                    "password"
+                    ? 0
+                    : 1,
+              }}
+            />
+
+            <div
+              style={{
+                ...styles.eye,
+                transform:
+                  focusField ===
+                    "email"
+                    ? `translateX(${email.length * 1.5
+                    }px)`
+                    : "translateX(0px)",
+                opacity:
+                  focusField ===
+                    "password"
+                    ? 0
+                    : 1,
+              }}
+            />
 
           </div>
 
@@ -261,7 +309,7 @@ export default function MobileLoginPage() {
                 : "#0f172a",
             }}
           >
-            Hello Human 👋
+            Hey Human 👋
           </h1>
 
           <p
@@ -272,127 +320,134 @@ export default function MobileLoginPage() {
                 : "#475569",
             }}
           >
-            Your AI assistant is waiting
-            to build something amazing.
+            Your AI buddy is waiting
+            for you ✨
+          </p>
+
+          <p style={styles.hookText}>
+
+            {focusField ===
+              "email" &&
+              "👀 I'm watching your email..."}
+
+            {focusField ===
+              "password" &&
+              "🙈 I can't see your password..."}
+
+            {focusField ===
+              "" &&
+              "⚡ Let's build something amazing"}
+
           </p>
 
         </div>
 
-        {/* INTERACTIVE LOGIN */}
-        <div style={styles.bottomArea}>
+        {/* INPUTS */}
+        <div style={styles.formArea}>
 
-          {step === 0 && (
+          <div style={styles.switchRow}>
 
             <button
               onClick={() =>
-                setStep(1)
+                setIsLogin(true)
               }
-              style={styles.bigButton}
+              style={{
+                ...styles.switchBtn,
+                ...(isLogin
+                  ? styles.activeSwitch
+                  : {}),
+              }}
             >
-              Tap To Enter 🚀
+              Login
             </button>
 
-          )}
-
-          {step >= 1 && (
-
-            <div
-              style={styles.inputArea}
+            <button
+              onClick={() =>
+                setIsLogin(false)
+              }
+              style={{
+                ...styles.switchBtn,
+                ...(!isLogin
+                  ? styles.activeSwitch
+                  : {}),
+              }}
             >
+              Sign Up
+            </button>
 
-              <div style={styles.switchRow}>
+          </div>
 
-                <button
-                  onClick={() =>
-                    setIsLogin(true)
-                  }
-                  style={{
-                    ...styles.switchBtn,
-                    ...(isLogin
-                      ? styles.activeSwitch
-                      : {}),
-                  }}
-                >
-                  Login
-                </button>
+          {!isLogin && (
 
-                <button
-                  onClick={() =>
-                    setIsLogin(false)
-                  }
-                  style={{
-                    ...styles.switchBtn,
-                    ...(!isLogin
-                      ? styles.activeSwitch
-                      : {}),
-                  }}
-                >
-                  Sign Up
-                </button>
-
-              </div>
-
-              {!isLogin && (
-
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  value={name}
-                  onChange={(e) =>
-                    setName(
-                      e.target.value
-                    )
-                  }
-                  style={styles.input}
-                />
-
-              )}
-
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) =>
-                  setEmail(
-                    e.target.value
-                  )
-                }
-                style={styles.input}
-              />
-
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) =>
-                  setPassword(
-                    e.target.value
-                  )
-                }
-                style={styles.input}
-              />
-
-              {error && (
-
-                <p style={styles.error}>
-                  {error}
-                </p>
-
-              )}
-
-              <button
-                onClick={handleAuth}
-                disabled={loading}
-                style={styles.enterBtn}
-              >
-                {loading
-                  ? "Entering..."
-                  : "Enter BuildChat ⚡"}
-              </button>
-
-            </div>
+            <input
+              type="text"
+              placeholder="Your Name"
+              value={name}
+              onChange={(e) =>
+                setName(
+                  e.target.value
+                )
+              }
+              style={styles.input}
+            />
 
           )}
+
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onFocus={() =>
+              setFocusField("email")
+            }
+            onBlur={() =>
+              setFocusField("")
+            }
+            onChange={(e) =>
+              setEmail(
+                e.target.value
+              )
+            }
+            style={styles.input}
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onFocus={() =>
+              setFocusField(
+                "password"
+              )
+            }
+            onBlur={() =>
+              setFocusField("")
+            }
+            onChange={(e) =>
+              setPassword(
+                e.target.value
+              )
+            }
+            style={styles.input}
+          />
+
+          {error && (
+            <p style={styles.error}>
+              {error}
+            </p>
+          )}
+
+          <button
+            onClick={handleAuth}
+            disabled={loading}
+            style={styles.button}
+          >
+            {loading
+              ? "Loading..."
+              : isLogin
+                ? "Enter BuildChat 🚀"
+                : "Create Account ✨"}
+          </button>
 
         </div>
 
@@ -405,9 +460,9 @@ const styles: any = {
 
   page: {
     minHeight: "100vh",
-    position: "relative",
     overflow: "hidden",
-    padding: "22px",
+    position: "relative",
+    padding: "24px",
     fontFamily:
       "Inter, sans-serif",
   },
@@ -416,42 +471,36 @@ const styles: any = {
     position: "absolute",
     width: "350px",
     height: "350px",
-    borderRadius: "50%",
     background:
       "rgba(124,58,237,0.35)",
+    borderRadius: "50%",
     filter: "blur(120px)",
     top: "-120px",
-    left: "-100px",
-    animation:
-      "pulse 6s infinite",
+    left: "-120px",
   },
 
   glow2: {
     position: "absolute",
     width: "320px",
     height: "320px",
-    borderRadius: "50%",
     background:
       "rgba(6,182,212,0.28)",
+    borderRadius: "50%",
     filter: "blur(120px)",
-    bottom: "-120px",
+    bottom: "-100px",
     right: "-100px",
-    animation:
-      "pulse 8s infinite",
   },
 
   glow3: {
     position: "absolute",
     width: "220px",
     height: "220px",
-    borderRadius: "50%",
     background:
-      "rgba(236,72,153,0.28)",
+      "rgba(236,72,153,0.25)",
+    borderRadius: "50%",
     filter: "blur(90px)",
     top: "40%",
     left: "30%",
-    animation:
-      "float 7s infinite",
   },
 
   topBar: {
@@ -490,9 +539,9 @@ const styles: any = {
     alignItems: "center",
     color: "white",
     fontWeight: 900,
-    fontSize: "20px",
+    fontSize: "22px",
     boxShadow:
-      "0 20px 40px rgba(124,58,237,0.45)",
+      "0 20px 50px rgba(124,58,237,0.45)",
   },
 
   toggle: {
@@ -506,9 +555,9 @@ const styles: any = {
 
   hero: {
     position: "relative",
-    zIndex: 2,
     textAlign: "center",
-    marginTop: "70px",
+    marginTop: "60px",
+    zIndex: 3,
     animation:
       "fadeUp 1s ease",
   },
@@ -519,8 +568,8 @@ const styles: any = {
     height: "18px",
     borderRadius: "50%",
     background: "#7c3aed",
-    top: "20px",
-    left: "40px",
+    top: "10px",
+    left: "30px",
     animation:
       "float 4s infinite",
   },
@@ -531,27 +580,27 @@ const styles: any = {
     height: "14px",
     borderRadius: "50%",
     background: "#06b6d4",
-    top: "120px",
-    right: "50px",
-    animation:
-      "float 6s infinite",
-  },
-
-  orb3: {
-    position: "absolute",
-    width: "12px",
-    height: "12px",
-    borderRadius: "50%",
-    background: "#ec4899",
-    bottom: "-20px",
-    left: "90px",
+    top: "100px",
+    right: "40px",
     animation:
       "float 5s infinite",
   },
 
+  orb3: {
+    position: "absolute",
+    width: "10px",
+    height: "10px",
+    borderRadius: "50%",
+    background: "#ec4899",
+    bottom: "0px",
+    left: "70px",
+    animation:
+      "float 3s infinite",
+  },
+
   aiFace: {
-    width: "130px",
-    height: "130px",
+    width: "140px",
+    height: "140px",
     borderRadius: "40px",
     background:
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
@@ -560,8 +609,9 @@ const styles: any = {
     justifyContent: "center",
     alignItems: "center",
     gap: "18px",
+    position: "relative",
     boxShadow:
-      "0 30px 80px rgba(124,58,237,0.45)",
+      "0 30px 70px rgba(124,58,237,0.45)",
     animation:
       "float 5s infinite",
   },
@@ -571,58 +621,74 @@ const styles: any = {
     height: "18px",
     borderRadius: "50%",
     background: "white",
-    animation:
-      "pulse 2s infinite",
+    transition:
+      "all 0.25s ease",
+  },
+
+  handLeft: {
+    position: "absolute",
+    width: "40px",
+    height: "80px",
+    background: "white",
+    borderRadius: "30px",
+    left: "18px",
+    top: "12px",
+    transform:
+      "rotate(-35deg)",
+    zIndex: 10,
+  },
+
+  handRight: {
+    position: "absolute",
+    width: "40px",
+    height: "80px",
+    background: "white",
+    borderRadius: "30px",
+    right: "18px",
+    top: "12px",
+    transform:
+      "rotate(35deg)",
+    zIndex: 10,
   },
 
   heading: {
-    fontSize: "54px",
-    lineHeight: 1,
+    fontSize: "52px",
     fontWeight: 900,
+    lineHeight: 1,
     letterSpacing: "-3px",
-    marginBottom: "20px",
+    marginBottom: "18px",
   },
 
   subtitle: {
     fontSize: "17px",
-    lineHeight: 1.8,
+    lineHeight: 1.7,
     maxWidth: "320px",
     margin: "0 auto",
   },
 
-  bottomArea: {
+  hookText: {
+    marginTop: "18px",
+    fontSize: "15px",
+    color: "#cbd5e1",
+    fontWeight: 700,
+    minHeight: "24px",
+  },
+
+  formArea: {
     position: "relative",
     zIndex: 5,
-    marginTop: "60px",
-    animation:
-      "fadeUp 1.2s ease",
-  },
-
-  bigButton: {
-    width: "100%",
-    padding: "24px",
-    borderRadius: "28px",
-    border: "none",
-    background:
-      "linear-gradient(135deg,#7c3aed,#06b6d4)",
-    color: "white",
-    fontWeight: 900,
-    fontSize: "20px",
-    cursor: "pointer",
-    boxShadow:
-      "0 25px 60px rgba(124,58,237,0.45)",
-  },
-
-  inputArea: {
+    marginTop: "50px",
     display: "flex",
     flexDirection: "column",
     gap: "16px",
+    animation:
+      "fadeUp 1.3s ease",
   },
 
   switchRow: {
     display: "flex",
     gap: "12px",
-    marginBottom: "10px",
+    marginBottom: "8px",
   },
 
   switchBtn: {
@@ -645,21 +711,22 @@ const styles: any = {
   input: {
     width: "100%",
     padding: "18px",
-    borderRadius: "20px",
+    borderRadius: "22px",
     border:
       "1px solid rgba(255,255,255,0.08)",
     background:
       "rgba(255,255,255,0.08)",
+    backdropFilter:
+      "blur(14px)",
     color: "white",
     outline: "none",
     fontSize: "16px",
-    backdropFilter: "blur(10px)",
   },
 
-  enterBtn: {
+  button: {
     width: "100%",
     padding: "20px",
-    borderRadius: "22px",
+    borderRadius: "24px",
     border: "none",
     background:
       "linear-gradient(135deg,#7c3aed,#06b6d4)",
@@ -669,7 +736,7 @@ const styles: any = {
     cursor: "pointer",
     marginTop: "10px",
     boxShadow:
-      "0 20px 50px rgba(124,58,237,0.45)",
+      "0 25px 60px rgba(124,58,237,0.45)",
   },
 
   error: {
