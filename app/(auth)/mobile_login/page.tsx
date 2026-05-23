@@ -149,6 +149,10 @@ export default function MobileLoginPage() {
           box-sizing:border-box;
         }
 
+        html{
+          scroll-behavior:smooth;
+        }
+
         body{
           margin:0;
           font-family:Inter,sans-serif;
@@ -163,7 +167,7 @@ export default function MobileLoginPage() {
           from{
             opacity:0;
             transform:
-              translateY(25px);
+              translateY(20px);
           }
 
           to{
@@ -193,47 +197,6 @@ export default function MobileLoginPage() {
 
         }
 
-        @keyframes typing{
-
-          0%{
-            opacity:.3;
-            transform:
-              translateY(0px);
-          }
-
-          50%{
-            opacity:1;
-            transform:
-              translateY(-4px);
-          }
-
-          100%{
-            opacity:.3;
-            transform:
-              translateY(0px);
-          }
-
-        }
-
-        @keyframes floatCard{
-
-          0%{
-            transform:
-              translateY(0px);
-          }
-
-          50%{
-            transform:
-              translateY(-5px);
-          }
-
-          100%{
-            transform:
-              translateY(0px);
-          }
-
-        }
-
       `}
       </style>
 
@@ -247,14 +210,14 @@ export default function MobileLoginPage() {
         }}
       >
 
-        {/* BG */}
+        {/* BG GLOW */}
         <div
           style={{
             ...styles.glow1,
             opacity:
               darkMode
                 ? 1
-                : .4,
+                : 0.4,
           }}
         />
 
@@ -264,7 +227,7 @@ export default function MobileLoginPage() {
             opacity:
               darkMode
                 ? 1
-                : .3,
+                : 0.3,
           }}
         />
 
@@ -384,7 +347,7 @@ export default function MobileLoginPage() {
 
         </div>
 
-        {/* LOGIN CARD */}
+        {/* CARD */}
         <div
           style={{
             ...styles.card,
@@ -399,7 +362,7 @@ export default function MobileLoginPage() {
           }}
         >
 
-          {/* TABS */}
+          {/* SWITCH */}
           <div
             style={{
               ...styles.tabs,
@@ -412,7 +375,9 @@ export default function MobileLoginPage() {
 
             <button
               onClick={() =>
-                setIsLogin(true)
+                setIsLogin(
+                  true
+                )
               }
               style={{
                 ...styles.tabBtn,
@@ -426,7 +391,9 @@ export default function MobileLoginPage() {
 
             <button
               onClick={() =>
-                setIsLogin(false)
+                setIsLogin(
+                  false
+                )
               }
               style={{
                 ...styles.tabBtn,
@@ -440,8 +407,10 @@ export default function MobileLoginPage() {
 
           </div>
 
-          {/* FORM */}
-          <div style={styles.form}>
+          {/* INPUTS */}
+          <div
+            style={styles.form}
+          >
 
             {!isLogin && (
               <input
@@ -554,115 +523,6 @@ export default function MobileLoginPage() {
 
         </div>
 
-        {/* BOTTOM AI ANIMATION */}
-        <div style={styles.aiPreview}>
-
-          <div
-            style={styles.aiTop}
-          >
-
-            <div
-              style={
-                styles.aiDots
-              }
-            >
-
-              <span
-                style={
-                  styles.dot1
-                }
-              ></span>
-
-              <span
-                style={
-                  styles.dot2
-                }
-              ></span>
-
-              <span
-                style={
-                  styles.dot3
-                }
-              ></span>
-
-            </div>
-
-            <p
-              style={
-                styles.aiTitle
-              }
-            >
-              BuildChat AI
-            </p>
-
-          </div>
-
-          <div
-            style={
-              styles.chatArea
-            }
-          >
-
-            <div
-              style={
-                styles.userBubble
-              }
-            >
-              How can I automate
-              my support?
-            </div>
-
-            <div
-              style={
-                styles.typingWrap
-              }
-            >
-
-              <div
-                style={
-                  styles.typingBubble
-                }
-              >
-
-                <span
-                  style={
-                    styles.typingDot
-                  }
-                ></span>
-
-                <span
-                  style={{
-                    ...styles.typingDot,
-                    animationDelay:
-                      ".2s",
-                  }}
-                ></span>
-
-                <span
-                  style={{
-                    ...styles.typingDot,
-                    animationDelay:
-                      ".4s",
-                  }}
-                ></span>
-
-              </div>
-
-            </div>
-
-            <div
-              style={
-                styles.aiBubble
-              }
-            >
-              Your AI assistant
-              is ready ⚡
-            </div>
-
-          </div>
-
-        </div>
-
       </div>
     </>
   );
@@ -673,9 +533,9 @@ const styles: any = {
   page: {
     minHeight: "100vh",
     position: "relative",
-    overflowX: "hidden",
+    overflow: "hidden",
     padding:
-      "24px 20px 40px",
+      "24px 20px 50px",
   },
 
   glow1: {
@@ -686,7 +546,7 @@ const styles: any = {
     background:
       "rgba(124,58,237,0.25)",
     filter: "blur(120px)",
-    top: "-120px",
+    top: "-100px",
     left: "-120px",
     animation:
       "pulse 6s ease infinite",
@@ -700,7 +560,7 @@ const styles: any = {
     background:
       "rgba(6,182,212,0.22)",
     filter: "blur(120px)",
-    bottom: "-120px",
+    bottom: "-100px",
     right: "-100px",
     animation:
       "pulse 7s ease infinite",
@@ -713,7 +573,7 @@ const styles: any = {
     justifyContent:
       "space-between",
     alignItems: "center",
-    marginBottom: "40px",
+    marginBottom: "60px",
     animation:
       "fadeUp .7s ease",
   },
@@ -767,7 +627,6 @@ const styles: any = {
     zIndex: 2,
     animation:
       "fadeUp 1s ease",
-    marginBottom: "34px",
   },
 
   heroBadge: {
@@ -798,6 +657,7 @@ const styles: any = {
   card: {
     position: "relative",
     zIndex: 2,
+    marginTop: "45px",
     borderRadius: "34px",
     padding: "22px",
     backdropFilter:
@@ -806,7 +666,6 @@ const styles: any = {
       "fadeUp 1.2s ease",
     boxShadow:
       "0 20px 60px rgba(0,0,0,0.12)",
-    marginBottom: "34px",
   },
 
   tabs: {
@@ -852,6 +711,8 @@ const styles: any = {
       "1px solid rgba(255,255,255,0.06)",
     outline: "none",
     fontSize: "15px",
+    transition:
+      "all .25s ease",
   },
 
   button: {
@@ -880,121 +741,6 @@ const styles: any = {
     textAlign: "center",
     fontSize: "13px",
     marginTop: "20px",
-  },
-
-  aiPreview: {
-    width: "100%",
-    borderRadius: "28px",
-    padding: "18px",
-    background:
-      "rgba(255,255,255,0.05)",
-    border:
-      "1px solid rgba(255,255,255,0.06)",
-    backdropFilter:
-      "blur(24px)",
-    animation:
-      "floatCard 5s ease-in-out infinite",
-    position: "relative",
-    zIndex: 2,
-    marginBottom: "20px",
-  },
-
-  aiTop: {
-    display: "flex",
-    justifyContent:
-      "space-between",
-    alignItems: "center",
-    marginBottom: "18px",
-  },
-
-  aiDots: {
-    display: "flex",
-    gap: "6px",
-  },
-
-  dot1: {
-    width: "8px",
-    height: "8px",
-    borderRadius: "50%",
-    background: "#ef4444",
-  },
-
-  dot2: {
-    width: "8px",
-    height: "8px",
-    borderRadius: "50%",
-    background: "#f59e0b",
-  },
-
-  dot3: {
-    width: "8px",
-    height: "8px",
-    borderRadius: "50%",
-    background: "#10b981",
-  },
-
-  aiTitle: {
-    margin: 0,
-    color: "#cbd5e1",
-    fontSize: "13px",
-    fontWeight: 700,
-  },
-
-  chatArea: {
-    display: "flex",
-    flexDirection:
-      "column",
-    gap: "12px",
-  },
-
-  userBubble: {
-    alignSelf:
-      "flex-start",
-    background:
-      "rgba(255,255,255,0.06)",
-    padding: "14px",
-    borderRadius: "16px",
-    color: "white",
-    fontSize: "13px",
-    maxWidth: "230px",
-  },
-
-  typingWrap: {
-    display: "flex",
-    justifyContent:
-      "flex-start",
-  },
-
-  typingBubble: {
-    display: "flex",
-    gap: "5px",
-    padding: "12px 14px",
-    borderRadius: "16px",
-    background:
-      "rgba(124,58,237,0.16)",
-  },
-
-  typingDot: {
-    width: "7px",
-    height: "7px",
-    borderRadius: "50%",
-    background: "#06b6d4",
-    animation:
-      "typing 1.2s infinite",
-  },
-
-  aiBubble: {
-    alignSelf:
-      "flex-end",
-    background:
-      "linear-gradient(135deg,#7c3aed,#06b6d4)",
-    padding: "14px",
-    borderRadius: "16px",
-    color: "white",
-    fontSize: "13px",
-    maxWidth: "240px",
-    boxShadow:
-      "0 10px 25px rgba(124,58,237,0.25)",
   },
 
 };
