@@ -19,7 +19,7 @@ export default function MobileLoginPage() {
         useRouter();
 
     const [darkMode, setDarkMode] =
-        useState(true);
+        useState(false);
 
     const [isLogin, setIsLogin] =
         useState(true);
