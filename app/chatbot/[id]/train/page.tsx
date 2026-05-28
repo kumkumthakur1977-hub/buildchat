@@ -87,39 +87,6 @@ export default function TrainPage() {
             try {
                 setLoading(true);
 
-                // STEP 1 — Generate embedding
-                const embedRes =
-                    await fetch(
-                        "http://127.0.0.1:8000/embed",
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json",
-                            },
-
-                            body: JSON.stringify({
-                                text: question,
-                            }),
-                        }
-                    );
-
-                const embedData =
-                    await embedRes.json();
-
-                if (
-                    !embedData.success
-                ) {
-                    setError(
-                        "Failed to generate embedding"
-                    );
-
-                    setLoading(false);
-
-                    return;
-                }
-
                 // STEP 2 — Save to Supabase
                 const { error } =
                     await supabase
@@ -132,10 +99,7 @@ export default function TrainPage() {
 
                             question,
 
-                            answer,
-
-                            embedding:
-                                embedData.embedding,
+                            answer
                         });
 
                 if (error) {
